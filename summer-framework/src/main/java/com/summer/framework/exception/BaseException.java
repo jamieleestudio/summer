@@ -1,4 +1,4 @@
-package com.summer.common.exception;
+package com.summer.framework.exception;
 
 /**
  * 异常接口类

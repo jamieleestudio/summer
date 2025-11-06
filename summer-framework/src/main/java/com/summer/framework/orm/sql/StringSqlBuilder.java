@@ -1,10 +1,10 @@
 package com.summer.framework.orm.sql;
 
-import com.summer.common.constants.CommonCharacter;
-import com.summer.common.constants.CommonPattern;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Pageable;
 
+import com.summer.framework.constants.CommonCharacter;
+import com.summer.framework.constants.CommonPattern;
+
+import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -33,7 +33,7 @@ public class StringSqlBuilder {
         Matcher matcher = CommonPattern.COLON_FIRST.matcher(sql);
         int index = 0;
         while (matcher.find()){
-            paramsMap.put(matcher.group().replace(CommonCharacter.COLON, StringUtils.EMPTY),params[index]);
+            paramsMap.put(matcher.group().replace(CommonCharacter.COLON, ""),params[index]);
             index++;
         }
         stringBuilder.append(sql);
@@ -56,16 +56,16 @@ public class StringSqlBuilder {
     }
 
     public String toCountString(){
-        return "SELECT COUNT(*) FROM ("+stringBuilder.toString()+") _temp_count";
+        return "SELECT COUNT(*) FROM ("+ stringBuilder +") _temp_count";
     }
+//
+//    public String toPageString(Pageable page){
+//        return stringBuilder.append(limitClause(page)).toString();
+//    }
 
-    public String toPageString(Pageable page){
-        return stringBuilder.append(limitClause(page)).toString();
-    }
-
-    protected String limitClause(Pageable page) {
-        return " LIMIT " + page.getOffset() + " , " + page.getPageSize();
-    }
+//    protected String limitClause(Pageable page) {
+//        return " LIMIT " + page.getOffset() + " , " + page.getPageSize();
+//    }
 
     public Map<String, Object> getParamsMap() {
         return paramsMap;

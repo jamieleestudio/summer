@@ -41,11 +41,6 @@
             <artifactId>summer-framework</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.summer</groupId>
-            <artifactId>summer-common</artifactId>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
         <dependency>
             <groupId>jakarta.servlet</groupId>

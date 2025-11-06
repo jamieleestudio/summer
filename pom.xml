@@ -22,11 +22,11 @@
 		<module>summer-utils</module>
         <module>summer-system</module>
 		<module>summer-manage</module>
-        <module>summer-common</module>
         <module>summer-framework</module>
         <module>summer-starter</module>
         <module>summer-bom</module>
-    </modules>
+		<module>summer-dependencies</module>
+	</modules>
 
 	<properties>
 

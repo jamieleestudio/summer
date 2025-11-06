@@ -16,10 +16,8 @@ public class SystemRoleConverter {
         SystemRoleDTO systemRoleDTO;
         for(SystemRole systemRole : systemRoleList){
             systemRoleDTO = new SystemRoleDTO();
-            systemRoleDTO.setId(systemRole.getId());
             systemRoleDTO.setName(systemRole.getName());
             systemRoleDTO.setDescription(systemRole.getDescription());
-            systemRoleDTO.setSort(systemRole.getSort());
             systemRoleDTOList.add(systemRoleDTO);
         }
         return systemRoleDTOList;

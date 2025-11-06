@@ -22,11 +22,10 @@ public class SystemUserConverter {
         SystemUserDTO systemUserPageDTO ;
         for(SystemUser systemUser : systemUserList){
             systemUserPageDTO = new SystemUserDTO();
-            systemUserPageDTO.setId(systemUser.getId());
             systemUserPageDTO.setGender(systemUser.getGender());
             systemUserPageDTO.setGenderStr(GenderEnum.getDesc(systemUser.getGender()));
             systemUserPageDTO.setPhone(systemUser.getPhone());
-            systemUserPageDTO.setName(systemUser.getName());
+            systemUserPageDTO.setName(systemUser.getUsername());
             systemUserPageDTO.setAccount(systemUser.getAccount());
             systemUserPageDTO.setEnable(EnabledEnum.getDesc(systemUser.getEnable()));
             systemUserPageDTO.setDescription(systemUser.getDescription());
@@ -39,19 +38,19 @@ public class SystemUserConverter {
     public static SystemUser newSystemUser(SystemUserSaveDTO systemUserSaveDTO){
         SystemUser systemUser = new SystemUser();
         systemUser.setAccount(systemUserSaveDTO.getAccount());
-        systemUser.setName(systemUserSaveDTO.getName());
+        systemUser.setUsername(systemUserSaveDTO.getName());
         systemUser.setAvatar(systemUserSaveDTO.getAvatar());
         systemUser.setDescription(systemUserSaveDTO.getDescription());
         systemUser.setEmail(systemUserSaveDTO.getEmail());
         systemUser.setPhone(systemUserSaveDTO.getPhone());
         systemUser.setGender(systemUserSaveDTO.getGender());
         systemUser.setEnable(systemUserSaveDTO.getEnable());
-
-        if(systemUserSaveDTO.getId() != null){
-            systemUser.setId(systemUserSaveDTO.getId());
-        }else{
-            systemUser.setDeleted(Boolean.FALSE);
-        }
+//
+//        if(systemUserSaveDTO.getId() != null){
+//            systemUser.setId(systemUserSaveDTO.getId());
+//        }else{
+//            systemUser.setDeleted(Boolean.FALSE);
+//        }
         return systemUser;
     }
 

@@ -1,4 +1,4 @@
-package com.summer.common.exception;
+package com.summer.framework.exception;
 
 
 import lombok.Getter;

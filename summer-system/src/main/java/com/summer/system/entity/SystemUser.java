@@ -1,12 +1,16 @@
 package com.summer.system.entity;
 
-import com.summer.framework.orm.domain.AbstractAuditable;
 import com.summer.framework.orm.domain.Deleted;
 import com.summer.framework.orm.domain.Enable;
-import com.summer.framework.orm.domain.Sortable;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.proxy.HibernateProxy;
+import org.springframework.data.jpa.domain.AbstractAuditable;
+
+import java.util.Objects;
 
 
 /**
@@ -16,64 +20,49 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "sm_system_user")
-public class SystemUser extends AbstractAuditable<Long,Long> implements Deleted, Enable, Sortable {
+public class SystemUser extends AbstractAuditable<SystemUser,String> implements Deleted, Enable {
 
-    /**
-     * 工号
-     */
-    @Column(name = "job_number")
-    private String jobNumber;
+    @Column(name = "username")
+    private String username;
 
-    /**
-     * 姓名
-     */
-    @Column(name = "name")
-    private String name;
-
-    /**
-     * 账户
-     */
     @Column(name = "account")
     private String account;
 
-    /**
-     * 密码
-     */
     @Column(name = "password")
     private String password;
 
-    /**
-     * 邮箱
-     */
     @Column(name = "email")
     private String email;
 
-    /**
-     * 手机
-     */
     @Column(name = "phone")
     private String phone;
 
-    /**
-     * 性别
-     */
     @Column(name = "gender")
     private Integer gender;
 
-    /**
-     * 头像
-     */
     @Column(name = "avatar")
     private String avatar;
 
-    /**
-     * 描述
-     */
     @Column(name = "description")
     private String description;
 
-    private Integer sort;
     private Boolean deleted;
+
     private Boolean enable;
 
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        SystemUser that = (SystemUser) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }
+

@@ -1,13 +1,13 @@
-package com.summer.common.exception;
+package com.summer.framework.exception;
 
-import com.summer.common.exception.code.BaseExceptionCode;
+import com.summer.framework.exception.code.BaseExceptionCode;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
-public class BizException extends BaseUncheckedException{
+public class BizException extends BaseUncheckedException {
 
 
     private BaseExceptionCode exceptionCode;

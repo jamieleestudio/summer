@@ -1,17 +1,15 @@
 package com.summer.system.entity;
 
-import com.summer.framework.orm.domain.AbstractAuditable;
-import com.summer.framework.orm.domain.Sortable;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
-
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 @Getter
 @Setter
 @Entity
 @Table(name="sm_system_role")
-public class SystemRole extends AbstractAuditable<Long,Long> implements Sortable {
+public class SystemRole extends AbstractAuditable<SystemUser,String> {
 
     /**
      * 角色名称
@@ -30,8 +28,5 @@ public class SystemRole extends AbstractAuditable<Long,Long> implements Sortable
      */
     @Column(name = "permission_scope")
     private Integer permissionScope;
-
-
-    private Integer sort;
 
 }

@@ -1,15 +1,14 @@
-package com.summer.common.constants;
+package com.summer.framework.constants;
 
 import java.util.regex.Pattern;
 
 /**
- * 公共正则表达式
- * @author lixf
+ * the common pattern
  */
 public interface CommonPattern {
 
     /**
-     * 冒号后面第一个参数
+     * colon first param
      */
     Pattern COLON_FIRST = Pattern.compile(CommonCharacter.COLON+"[A-Za-z]+");
 

@@ -22,12 +22,6 @@
 
             <dependency>
                 <groupId>com.summer</groupId>
-                <artifactId>summer-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.summer</groupId>
                 <artifactId>summer-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>

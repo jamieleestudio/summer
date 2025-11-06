@@ -1,4 +1,4 @@
-package com.summer.common.exception.code;
+package com.summer.framework.exception.code;
 
 /**
  * 异常 code, 异常码值枚举类继承

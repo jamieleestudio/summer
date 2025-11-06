@@ -51,11 +51,6 @@
       <artifactId>jakarta.persistence-api</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.summer</groupId>
-      <artifactId>summer-common</artifactId>
-    </dependency>
-
   </dependencies>
 
 </project>
