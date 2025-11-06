@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>summer</artifactId>
+        <groupId>com.summer</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>summer-manage</artifactId>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.summer</groupId>
+                <artifactId>summer-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>summer-starter-jpa</artifactId>
+            <groupId>com.summer.starter</groupId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.summer</groupId>
+            <artifactId>summer-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.summer.starter</groupId>
+            <artifactId>summer-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.yml</include>
+                    <include>*.txt</include>  <!--将banner.txt 编译进target-->
+                    <include>*.xml</include>  <!--将banner.txt 编译进target-->
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+</project>

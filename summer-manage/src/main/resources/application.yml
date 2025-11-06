@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+spring:
+
+  datasource:
+    ##mysql8.x的jdbc升级了，增加了时区（serverTimezone）属性，并且不允许为空。
+    ##UTC是什么时区,不属于任意时区  。协调世界时，又称世界统一时间，世界标准时间，国际协调时间，简称UTC。(UTC和中国时间相差8小时)
+    ##北京时间==东八区时间！=北京当地时间 serverTimezone=GMT%2B8  或者使用上海时间 serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/summer?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+camunda:
+  bpm:
+    enabled: true
+    admin-user:
+      id: demo
+      password: demo
+      first-name: 超级管理员
+      last-name: 超级管理员
+    database:
+      schema-update: true
+      type: mysql
+    job-execution:
+      enabled: false
+    #关闭自动部署
+    auto-deployment-enabled: false
+#logging:
+#  config: classpath:logback-spring.xml
