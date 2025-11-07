@@ -1,4 +1,4 @@
-package com.summer.system.entity;
+package com.summer.system.infrastructure.persistence.entity;
 
 import com.summer.framework.orm.domain.Deleted;
 import com.summer.framework.orm.domain.Enable;
@@ -20,7 +20,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @Table(name = "sm_system_user")
-public class SystemUser extends AbstractAuditable<SystemUser,String> implements Deleted, Enable {
+public class SystemUserEntity extends AbstractAuditable<SystemUserEntity,String> implements Deleted, Enable {
 
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -59,7 +59,7 @@ public class SystemUser extends AbstractAuditable<SystemUser,String> implements 
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        SystemUser that = (SystemUser) o;
+        SystemUserEntity that = (SystemUserEntity) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
