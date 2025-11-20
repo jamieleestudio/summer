@@ -28,17 +28,16 @@ public class SecurityConfig  {
    @Bean
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                http
-              .csrf().disable()
-              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-              .and()
+              .csrf(csrf -> csrf.disable())
+              .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
               .authorizeHttpRequests(authz -> authz
                       .requestMatchers("/**").permitAll()
                       .anyRequest().authenticated())
               .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-              .exceptionHandling()
-              .accessDeniedHandler(accessDeniedHandler)
-              .authenticationEntryPoint(authenticationEntryPoint);
-      return http.build();
+              .exceptionHandling(ex -> ex
+                      .accessDeniedHandler(accessDeniedHandler)
+                      .authenticationEntryPoint(authenticationEntryPoint));
+       return http.build();
    }
 
 }
