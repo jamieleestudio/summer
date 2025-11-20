@@ -32,11 +32,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.summer</groupId>
-                <artifactId>summer-utils</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.summer.starter</groupId>
@@ -44,11 +39,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.summer.starter</groupId>
-                <artifactId>summer-starter-mongodb</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.summer.starter</groupId>

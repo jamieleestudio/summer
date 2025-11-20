@@ -18,7 +18,6 @@
 
     <modules>
         <module>summer-starter-web</module>
-        <module>summer-starter-mongodb</module>
         <module>summer-starter-jpa</module>
     </modules>
 

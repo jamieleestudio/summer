@@ -4,7 +4,6 @@ package com.summer.framework.orm.sql;
 import com.summer.framework.constants.CommonCharacter;
 import com.summer.framework.constants.CommonPattern;
 
-import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;

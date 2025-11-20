@@ -1,4 +1,4 @@
-package com.summer;
+package per.summer;
 
 import static org.junit.Assert.assertTrue;
 

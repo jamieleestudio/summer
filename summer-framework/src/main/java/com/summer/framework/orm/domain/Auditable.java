@@ -1,7 +1,6 @@
 package com.summer.framework.orm.domain;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.Optional;
 
 /**

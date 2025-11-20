@@ -19,13 +19,11 @@
 	<name>summer</name>
 
 	<modules>
-		<module>summer-utils</module>
         <module>summer-system</module>
 		<module>summer-manage</module>
         <module>summer-framework</module>
         <module>summer-starter</module>
         <module>summer-bom</module>
-		<module>summer-dependencies</module>
 	</modules>
 
 	<properties>
@@ -83,13 +81,6 @@
 
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    
 
 </project>
