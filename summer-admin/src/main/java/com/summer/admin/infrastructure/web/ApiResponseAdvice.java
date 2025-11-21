@@ -25,7 +25,7 @@ public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof ApiResponse) {
             return body;
         }
-        if (selectedContentType != null && selectedContentType.includes(MediaType.APPLICATION_PROBLEM_JSON)) {
+        if (selectedContentType.includes(MediaType.APPLICATION_PROBLEM_JSON)) {
             return body;
         }
         return ApiResponse.ok(body);

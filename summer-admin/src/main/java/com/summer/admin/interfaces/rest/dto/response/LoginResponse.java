@@ -6,16 +6,16 @@ public class LoginResponse {
     }
 
     public LoginResponse(String token) {
-        this.token = token;
+        this.accessToken = token;
     }
 
-    private String token;
+    private String accessToken;
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String token) {
+        this.accessToken = token;
     }
 }

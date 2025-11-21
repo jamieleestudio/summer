@@ -6,8 +6,6 @@ import com.summer.admin.interfaces.rest.dto.request.LoginRequest;
 import com.summer.admin.interfaces.rest.dto.response.LoginResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     private final TokenProvider tokenProvider;
@@ -30,8 +28,8 @@ public class AuthenticationController {
         this.tokenProvider = tokenProvider;
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<LoginResponse> authorize(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login")
+    public LoginResponse authorize(@Valid @RequestBody LoginRequest loginRequest) {
 
         var authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
@@ -43,7 +41,7 @@ public class AuthenticationController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new LoginResponse(jwt), httpHeaders, HttpStatus.OK);
+        return new LoginResponse(jwt);
     }
 
 }
