@@ -2,6 +2,9 @@ package com.summer.admin.interfaces.rest.dto.response;
 
 public class LoginResponse {
 
+    public LoginResponse() {
+    }
+
     public LoginResponse(String token) {
         this.token = token;
     }
