@@ -28,17 +28,15 @@
 
             <dependency>
                 <groupId>com.summer</groupId>
-                <artifactId>summer-system</artifactId>
+                <artifactId>summer-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.summer.starter</groupId>
                 <artifactId>summer-starter-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.summer.starter</groupId>

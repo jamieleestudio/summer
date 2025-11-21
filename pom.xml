@@ -18,13 +18,13 @@
 	<packaging>pom</packaging>
 	<name>summer</name>
 
-	<modules>
-        <module>summer-system</module>
-		<module>summer-manage</module>
+    <modules>
+        <module>summer-admin</module>
+        <module>summer-manage</module>
         <module>summer-framework</module>
         <module>summer-starter</module>
         <module>summer-bom</module>
-	</modules>
+    </modules>
 
 	<properties>
 
