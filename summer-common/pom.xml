@@ -13,7 +13,7 @@
   <artifactId>summer-common</artifactId>
   <version>${revision}</version>
 
-  <name>summer-framework</name>
+  <name>summer-common</name>
 
   <dependencyManagement>
     <dependencies>
