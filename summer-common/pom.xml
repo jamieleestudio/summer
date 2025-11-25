@@ -10,7 +10,7 @@
     <version>${revision}</version>
   </parent>
 
-  <artifactId>summer-framework</artifactId>
+  <artifactId>summer-common</artifactId>
   <version>${revision}</version>
 
   <name>summer-framework</name>

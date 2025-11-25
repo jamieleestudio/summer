@@ -22,7 +22,7 @@
 
             <dependency>
                 <groupId>com.summer</groupId>
-                <artifactId>summer-framework</artifactId>
+                <artifactId>summer-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -21,7 +21,7 @@
     <modules>
         <module>summer-iam</module>
         <module>summer-bootstrap</module>
-        <module>summer-framework</module>
+        <module>summer-common</module>
         <module>summer-starter</module>
         <module>summer-bom</module>
     </modules>
