@@ -1510,6 +1510,49 @@ CREATE TABLE `sm_system_role` (
 
 insert  into `sm_system_role`(`id`,`created_by`,`created_date`,`last_modified_by`,`last_modified_date`,`name`,`description`,`permission_scope`,`sort`) values (1,NULL,NULL,NULL,NULL,'超级管理员','超级管理员',NULL,NULL),(2,NULL,NULL,NULL,NULL,'普通员工','普通员工',NULL,NULL);
 
+/*Table structure for table `sm_system_permission` */
+
+DROP TABLE IF EXISTS `sm_system_permission`;
+
+CREATE TABLE `sm_system_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `sm_system_permission` */
+
+insert into `sm_system_permission`(`id`,`code`,`name`,`description`) values (1,'ADMIN','管理员权限','管理员权限');
+
+/*Table structure for table `sm_system_role_permission` */
+
+DROP TABLE IF EXISTS `sm_system_role_permission`;
+
+CREATE TABLE `sm_system_role_permission` (
+  `role_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`role_id`,`permission_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `sm_system_role_permission` */
+
+insert into `sm_system_role_permission`(`role_id`,`permission_id`) values (1,1);
+/*Table structure for table `sm_system_user_role` */
+
+DROP TABLE IF EXISTS `sm_system_user_role`;
+
+CREATE TABLE `sm_system_user_role` (
+  `user_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `sm_system_user_role` */
+
+insert into `sm_system_user_role`(`user_id`,`role_id`) values (1,1);
+
 /*Table structure for table `sm_system_user` */
 
 DROP TABLE IF EXISTS `sm_system_user`;

@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.summer</groupId>
-            <artifactId>summer-admin</artifactId>
+            <artifactId>summer-iam</artifactId>
         </dependency>
 
         <dependency>

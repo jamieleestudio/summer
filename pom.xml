@@ -19,7 +19,7 @@
 	<name>summer</name>
 
     <modules>
-        <module>summer-admin</module>
+        <module>summer-iam</module>
         <module>summer-bootstrap</module>
         <module>summer-framework</module>
         <module>summer-starter</module>

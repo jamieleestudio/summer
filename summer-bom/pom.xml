@@ -28,7 +28,7 @@
 
             <dependency>
                 <groupId>com.summer</groupId>
-                <artifactId>summer-admin</artifactId>
+                <artifactId>summer-iam</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
