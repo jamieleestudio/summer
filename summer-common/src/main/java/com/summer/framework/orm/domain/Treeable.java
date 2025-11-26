@@ -11,4 +11,8 @@ public interface Treeable<PK extends Serializable>{
     PK getPid();
     void setPid(PK pId);
 
+    default Boolean getIsRoot(){
+        return getPid() == null;
+    }
+
 }

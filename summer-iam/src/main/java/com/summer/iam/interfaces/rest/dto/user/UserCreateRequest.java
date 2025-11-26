@@ -1,0 +1,47 @@
+package com.summer.iam.interfaces.rest.dto.user;
+
+import jakarta.validation.constraints.NotBlank;
+
+public class UserCreateRequest {
+    @NotBlank
+    private String firstName;
+    @NotBlank
+    private String lastName;
+    @NotBlank
+    private String account;
+    @NotBlank
+    private String password;
+    private String email;
+    private String phone;
+    private Integer gender;
+    private String avatar;
+    private String description;
+    private Boolean enable;
+    private String departmentId;
+    private String positionId;
+
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public String getAccount() { return account; }
+    public void setAccount(String account) { this.account = account; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public Integer getGender() { return gender; }
+    public void setGender(Integer gender) { this.gender = gender; }
+    public String getAvatar() { return avatar; }
+    public void setAvatar(String avatar) { this.avatar = avatar; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public Boolean getEnable() { return enable; }
+    public void setEnable(Boolean enable) { this.enable = enable; }
+    public String getDepartmentId() { return departmentId; }
+    public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
+    public String getPositionId() { return positionId; }
+    public void setPositionId(String positionId) { this.positionId = positionId; }
+}

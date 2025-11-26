@@ -2,6 +2,8 @@ package com.summer.iam.domain.repository;
 
 import com.summer.iam.domain.model.Role;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +15,9 @@ public interface RoleRepository {
 
     List<Role> findAll();
 
-    Role saveRole(Role role);
+    Page<Role> findAll(Pageable pageable);
+
+    Role save(Role role);
 
     void deleteById(String id);
 

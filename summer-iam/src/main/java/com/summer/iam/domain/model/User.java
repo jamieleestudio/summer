@@ -10,8 +10,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import java.util.Objects;
 
 /**
- * 用户领域对象
- * 专注于业务规则和行为，不依赖持久化框架
+ * User domain model
+ * Focuses on business rules and behavior, independent of persistence frameworks
  */
 @Getter
 @Setter
@@ -41,6 +41,14 @@ public class User extends AbstractPersistable<String> {
     private Boolean deleted;
 
     private Boolean enable;
+
+    @jakarta.persistence.ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
+    @jakarta.persistence.JoinColumn(name = "department_id")
+    private Department department;
+
+    @jakarta.persistence.ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
+    @jakarta.persistence.JoinColumn(name = "position_id")
+    private Position position;
 
     /**
      * 验证密码

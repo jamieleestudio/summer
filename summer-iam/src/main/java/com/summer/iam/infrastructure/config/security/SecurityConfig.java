@@ -34,6 +34,7 @@ public class SecurityConfig  {
       this.authenticationEntryPoint = authenticationEntryPoint;
    }
 
+
    @Bean
    public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
@@ -46,8 +47,8 @@ public class SecurityConfig  {
 
    @Bean
    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
-      authProvider.setPasswordEncoder(passwordEncoder);
+      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(passwordEncoder);
+      authProvider.setUserDetailsService(userDetailsService);
       return authProvider;
    }
 
@@ -55,9 +56,10 @@ public class SecurityConfig  {
    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                http
               .csrf(AbstractHttpConfigurer::disable)
-              .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-             .authorizeHttpRequests(authz -> authz
+             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authz -> authz
                       .requestMatchers("/auth/**").permitAll()
+                      .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
                       .requestMatchers("/admin/**").hasAnyAuthority("PERM_ADMIN","ROLE_ADMIN")
                       .anyRequest().authenticated())
               .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

@@ -20,6 +20,13 @@ public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+        String path = request.getURI().getPath();
+        if (path != null && (path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui"))) {
+            return body;
+        }
+        if (selectedContentType != null && !selectedContentType.includes(MediaType.APPLICATION_JSON)) {
+            return body;
+        }
         if (body == null) {
             return ApiResponse.ok(null);
         }

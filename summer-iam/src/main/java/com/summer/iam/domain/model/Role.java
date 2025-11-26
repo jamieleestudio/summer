@@ -31,11 +31,12 @@ public class Role  extends AbstractPersistable<String>{
 
     @ManyToMany
     @JoinTable(
-            name = "sm_role_permission",
+            name = "sm_system_role_permission",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     @BatchSize(size = 10)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Permission> permissions;
 
 }

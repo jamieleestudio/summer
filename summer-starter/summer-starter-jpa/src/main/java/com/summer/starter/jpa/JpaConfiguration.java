@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  *
- * Jpa 配置
+ * JPA configuration
  *
  * @author lixf
  */
@@ -32,12 +32,12 @@ public class JpaConfiguration {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setPackagesToScan("com.summer.**.entity");
-        //jpa hibernate适配器
+        // JPA Hibernate adapter
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setDataSource(dataSource);
         Map<String,Object> japPropertyMap = new HashMap<>();
-        //jpa租户路由拦截器
+        // JPA tenant routing interceptor
 //        japPropertyMap.put(AvailableSettings.STATEMENT_INSPECTOR,new JpaTenantRoutingInspector());
         factory.setJpaPropertyMap(japPropertyMap);
 

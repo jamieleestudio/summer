@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.annotation.*;
 
 /**
- * 自定义注解
- * 如果需要用到更多Transactional的属性，请复制到当前注解中进行覆盖
+ * Custom annotation
+ * If you need more Transactional attributes, copy and override them here
  *
  * @author lixf
  */

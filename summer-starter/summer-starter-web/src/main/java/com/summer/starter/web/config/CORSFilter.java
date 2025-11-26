@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 说明：跨域访问处理
- * 作者：FH Admin Q313596790
- * 官网：www.fhadmin.org
+ * Description: Cross-Origin Resource Sharing (CORS) handling
+ * Author: FH Admin Q313596790
+ * Website: www.fhadmin.org
  */
 @Order(1)
 @WebFilter(filterName="firstFilter", urlPatterns="/*")
@@ -33,9 +33,9 @@ public class CORSFilter implements Filter {
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Max-Age", "0");
 		response.setHeader("Access-Control-Allow-Headers","Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
-		response.setHeader("Access-Control-Allow-Credentials", "true"); // 是否支持cookie跨域        
-		response.setHeader("XDomainRequestAllowed", "1");
-		filterChain.doFilter(servletRequest, servletResponse);
+        response.setHeader("Access-Control-Allow-Credentials", "true"); // Whether cookies are allowed in cross-origin requests
+        response.setHeader("XDomainRequestAllowed", "1");
+        filterChain.doFilter(servletRequest, servletResponse);
 
 	}
 

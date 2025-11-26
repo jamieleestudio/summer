@@ -4,6 +4,8 @@ import com.summer.iam.infrastructure.config.jwt.JWTFilter;
 import com.summer.iam.infrastructure.config.security.TokenProvider;
 import com.summer.iam.interfaces.rest.dto.request.LoginRequest;
 import com.summer.iam.interfaces.rest.dto.response.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication")
 public class AuthenticationController {
 
     private final TokenProvider tokenProvider;
@@ -29,6 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login and obtain access token")
     public LoginResponse authorize(@Valid @RequestBody LoginRequest loginRequest) {
 
         var authenticationToken =

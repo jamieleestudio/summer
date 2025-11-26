@@ -1,0 +1,33 @@
+package com.summer.iam.application.service;
+
+import com.summer.iam.domain.model.Permission;
+import com.summer.iam.domain.repository.PermissionRepository;
+import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class PermissionQueryService {
+    private final PermissionRepository permissionRepository;
+
+    public PermissionQueryService(PermissionRepository permissionRepository) {
+        this.permissionRepository = permissionRepository;
+    }
+
+    public Page<PermissionResponse> listMenus(Pageable pageable) {
+        return permissionRepository.findByType(Permission.Type.MENU, pageable)
+                .map(this::toResponse);
+    }
+
+    private PermissionResponse toResponse(Permission p) {
+        PermissionResponse r = new PermissionResponse();
+        r.setId(p.getId());
+        r.setCode(p.getCode());
+        r.setType(p.getType());
+        r.setName(p.getName());
+        r.setDescription(p.getDescription());
+        r.setPid(p.getPid());
+        return r;
+    }
+}
