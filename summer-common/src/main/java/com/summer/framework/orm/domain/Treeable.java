@@ -3,7 +3,7 @@ package com.summer.framework.orm.domain;
 import java.io.Serializable;
 
 /**
- * 树接口
+ * tree interface
  * @param <PK> PK
  */
 public interface Treeable<PK extends Serializable>{

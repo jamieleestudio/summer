@@ -1,29 +1,41 @@
 package com.summer.iam.domain.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
+
 
 @Getter
 @Setter
-public class Role {
-    private String id;
-    private String name;
-    private String description;
+@Entity
+@DynamicUpdate
+@Table(name = "sm_system_role")
+public class Role  extends AbstractPersistable<String>{
+
+    @Column(name = "name")
+    private String  name;
+
+    @Column(name = "description")
+    private String  description;
+
+    @Column(name = "permission_scope")
     private Integer permissionScope;
+
+    @Column(name = "sort")
     private Integer sort;
-    private Set<Permission> permissions = new LinkedHashSet<>();
 
-    public void grant(Permission permission) {
-        if (permission != null) {
-            permissions.add(permission);
-        }
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "sm_role_permission",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    @BatchSize(size = 10)
+    private List<Permission> permissions;
 
-    public void revoke(String permissionCode) {
-        if (permissionCode == null) return;
-        permissions.removeIf(p -> permissionCode.equals(p.getCode()));
-    }
 }

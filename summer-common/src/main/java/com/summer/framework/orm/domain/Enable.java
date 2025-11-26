@@ -1,8 +1,7 @@
 package com.summer.framework.orm.domain;
 
 /**
- * 是否启用接口
- * @author lixf
+ * enable interface
  */
 public interface Enable {
 

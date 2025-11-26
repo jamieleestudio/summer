@@ -2,10 +2,9 @@ package com.summer.framework.orm.domain;
 
 import java.io.Serializable;
 
-/*
- * 通用树接口
- * @author Likasi
- * @date 15/05/2021 23:05
+/**
+ * tree interface
+ * @param <PK>
  */
 public interface GeneralTreeable<PK extends Serializable> extends Treeable<PK>{
 
