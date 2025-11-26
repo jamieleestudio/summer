@@ -39,6 +39,7 @@
 
 		<fastjson.version>1.2.83</fastjson.version>
 		<guava.version>31.1-jre</guava.version>
+		<hibernate.version>6.5.2.Final</hibernate.version>
 
 	</properties>
 
@@ -89,8 +90,36 @@
 			<version>${guava.version}</version>
 		</dependency>
 
-	</dependencies>
+		<!-- Hibernate JPA Metamodel Generator -->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>provided</scope>
+		</dependency>
 
+	</dependencies>
     
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.hibernate.orm</groupId>
+							<artifactId>hibernate-jpamodelgen</artifactId>
+							<version>${hibernate.version}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
