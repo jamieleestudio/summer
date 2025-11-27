@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PermissionQueryService {
     private final PermissionRepository permissionRepository;
@@ -15,9 +17,12 @@ public class PermissionQueryService {
         this.permissionRepository = permissionRepository;
     }
 
+    public List<PermissionResponse> findAll() {
+        return permissionRepository.findAll().stream().map(this::toResponse).toList();
+    }
+
     public Page<PermissionResponse> listMenus(Pageable pageable) {
-        return permissionRepository.findByType(Permission.Type.MENU, pageable)
-                .map(this::toResponse);
+        return permissionRepository.findByType(Permission.Type.MENU, pageable).map(this::toResponse);
     }
 
     private PermissionResponse toResponse(Permission p) {

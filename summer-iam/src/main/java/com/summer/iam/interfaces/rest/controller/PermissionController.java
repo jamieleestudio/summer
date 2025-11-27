@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/permissions")
 @Tag(name = "Permissions")
@@ -19,6 +21,12 @@ public class PermissionController {
 
     public PermissionController(PermissionQueryService permissionQueryService) {
         this.permissionQueryService = permissionQueryService;
+    }
+
+    @GetMapping
+    @Operation(summary = "List permissions")
+    public List<PermissionResponse> list() {
+        return permissionQueryService.findAll();
     }
 
     @GetMapping("/menus")

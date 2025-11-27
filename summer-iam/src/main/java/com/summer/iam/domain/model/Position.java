@@ -19,10 +19,6 @@ public class Position extends AbstractPersistable<String> {
     @Column(name = "code")
     private String code;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id")
-    private Department department;
-
     @Column(name = "type")
     private Integer type;
 

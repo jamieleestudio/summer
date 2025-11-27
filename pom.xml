@@ -38,8 +38,7 @@
 		<jjwt.version>0.10.6</jjwt.version>
 
 		<fastjson.version>1.2.83</fastjson.version>
-		<guava.version>31.1-jre</guava.version>
-		<hibernate.version>6.5.2.Final</hibernate.version>
+		<guava.version>32.0.1-android</guava.version>
 
 	</properties>
 
@@ -94,7 +93,6 @@
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>${hibernate.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

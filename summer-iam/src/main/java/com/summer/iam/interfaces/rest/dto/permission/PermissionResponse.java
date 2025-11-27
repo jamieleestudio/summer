@@ -1,8 +1,9 @@
 package com.summer.iam.interfaces.rest.dto.permission;
 
+import com.summer.framework.orm.domain.Treeable;
 import com.summer.iam.domain.model.Permission;
 
-public class PermissionResponse {
+public class PermissionResponse implements Treeable<String> {
     private String id;
     private String code;
     private Permission.Type type;
