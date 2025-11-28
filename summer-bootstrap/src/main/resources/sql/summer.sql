@@ -84,8 +84,9 @@ INSERT INTO `sm_system_position` (`id`,`name`,`code`,`department_id`,`type`,`des
 ('pos_user','User','USER','dept_root',2,'Standard user',2);
 
 INSERT INTO `sm_system_user` (`id`,`first_name`,`last_name`,`account`,`password`,`email`,`phone`,`gender`,`avatar`,`description`,`deleted`,`enable`,`department_id`,`position_id`) VALUES
-('u_admin','Admin','','admin','$2a$10$7EqJtq98hPqEX7fNLEIw.uS8vz1p.nQH0I0ZgQ8YQJRnH/uaG6ay','admin@example.com','',1,'','Super administrator',0,1,'dept_root','pos_admin'),
-('u_user','User','','user','$2a$10$7EqJtq98hPqEX7fNLEIw.uS8vz1p.nQH0I0ZgQ8YQJRnH/uaG6ay','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user');
+('u_admin','Admin','','admin','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','admin@example.com','',1,'','Super administrator',0,1,'dept_root','pos_admin'),
+('u_user','User','','user','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user'),
+('u_vben','Vben','','vben','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user');
 
 INSERT INTO `sm_system_role` (`id`,`name`,`description`,`permission_scope`,`sort`) VALUES
 ('r_admin','ROLE_ADMIN','Administrator role',999,1),
