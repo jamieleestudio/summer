@@ -2,6 +2,7 @@ package com.summer.iam.interfaces.rest.controller;
 
 import com.summer.iam.application.service.RoleQueryService;
 import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
+import com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse;
 import com.summer.iam.interfaces.rest.dto.role.RoleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,11 +32,17 @@ public class RoleController {
         return roleQueryService.findAll(pageable);
     }
 
+    @GetMapping("/{id}")
+    @Operation(summary = "Get role detail with permissions")
+    public RoleDetailResponse getById(@PathVariable("id") String id) {
+        return roleQueryService.findById(id)
+                .orElse(null);
+    }
+
     @GetMapping("/{id}/permissions")
     @Operation(summary = "List permissions of role")
     public List<PermissionResponse> listPermissions(@PathVariable("id") String id) {
         return roleQueryService.listPermissions(id);
     }
 
-    
 }

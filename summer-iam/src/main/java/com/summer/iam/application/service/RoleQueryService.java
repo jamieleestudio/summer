@@ -4,12 +4,14 @@ import com.summer.iam.domain.model.Permission;
 import com.summer.iam.domain.model.Role;
 import com.summer.iam.domain.repository.RoleRepository;
 import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
+import com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse;
 import com.summer.iam.interfaces.rest.dto.role.RoleResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +26,10 @@ public class RoleQueryService {
         return roleRepository.findAll(pageable).map(this::toResponse);
     }
 
+    public Optional<RoleDetailResponse> findById(String id) {
+        return roleRepository.findById(id).map(this::toDetailResponse);
+    }
+
     public List<PermissionResponse> listPermissions(String roleId) {
         return roleRepository.findById(roleId)
                 .map(Role::getPermissions)
@@ -33,6 +39,7 @@ public class RoleQueryService {
                 .collect(Collectors.toList());
     }
 
+    // 角色列表响应（不包含权限信息，提高查询效率）
     private RoleResponse toResponse(Role r) {
         RoleResponse resp = new RoleResponse();
         resp.setId(r.getId());
@@ -40,6 +47,24 @@ public class RoleQueryService {
         resp.setDescription(r.getDescription());
         resp.setPermissionScope(r.getPermissionScope());
         resp.setSort(r.getSort());
+        return resp;
+    }
+    
+    // 角色详情响应（包含权限ID列表）
+    private RoleDetailResponse toDetailResponse(Role r) {
+        RoleDetailResponse resp = new RoleDetailResponse();
+        resp.setId(r.getId());
+        resp.setName(r.getName());
+        resp.setDescription(r.getDescription());
+        resp.setPermissionScope(r.getPermissionScope());
+        resp.setSort(r.getSort());
+        // 设置角色的权限ID列表
+        if (r.getPermissions() != null) {
+            List<String> permissionIds = r.getPermissions().stream()
+                    .map(Permission::getId)
+                    .collect(Collectors.toList());
+            resp.setPermissions(permissionIds);
+        }
         return resp;
     }
 

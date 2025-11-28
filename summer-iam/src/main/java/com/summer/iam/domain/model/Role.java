@@ -36,7 +36,6 @@ public class Role  extends AbstractPersistable<String>{
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     @BatchSize(size = 10)
-    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Permission> permissions;
 
 }

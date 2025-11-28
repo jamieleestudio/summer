@@ -2,7 +2,6 @@ package com.summer.iam.infrastructure.persistence.jpa.specification;
 
 import com.summer.iam.domain.model.User;
 import com.summer.iam.domain.model.User_;
-import org.springframework.data.jpa.domain.AbstractPersistable_;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
@@ -58,7 +57,7 @@ public class UserSpecification {
                 return null;
             }
             // 使用类型安全的元模型引用
-            return criteriaBuilder.equal(root.get(User_.department).get(AbstractPersistable_.ID), departmentId);
+            return criteriaBuilder.equal(root.get(User_.department).get("id"), departmentId);
         };
     }
 

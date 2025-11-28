@@ -2,15 +2,12 @@ package com.summer.framework.orm.enums;
 
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Objects;
 
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EnabledEnum {
 
     /* 使用中 */
@@ -20,6 +17,11 @@ public enum EnabledEnum {
 
     private Boolean code;
     private String name;
+
+    EnabledEnum(Boolean code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
     public static String getDesc(Boolean code){
         if(code == null){
