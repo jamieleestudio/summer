@@ -47,7 +47,7 @@ public class RoleQueryService {
         PermissionResponse r = new PermissionResponse();
         r.setId(p.getId());
         r.setCode(p.getCode());
-        r.setType(p.getType());
+        r.setType(p.getType().name().toLowerCase());
         r.setName(p.getName());
         r.setDescription(p.getDescription());
         r.setPid(p.getPid());

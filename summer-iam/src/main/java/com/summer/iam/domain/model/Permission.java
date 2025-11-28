@@ -13,8 +13,11 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Permission extends AbstractPersistable<String> implements Treeable<String> {
 
     public enum Type {
+        CATALOG,
         MENU,
-        OPERATION
+        EMBEDDED,
+        LINK,
+        BUTTON
     }
 
     @Column(name = "code")
@@ -32,5 +35,8 @@ public class Permission extends AbstractPersistable<String> implements Treeable<
 
     @Column(name = "pid")
     private String pid;
+
+    @Column(name = "icon")
+    private String icon;
 
 }

@@ -29,10 +29,11 @@ public class PermissionQueryService {
         PermissionResponse r = new PermissionResponse();
         r.setId(p.getId());
         r.setCode(p.getCode());
-        r.setType(p.getType());
+        r.setType(p.getType() != null ? p.getType().name().toLowerCase() : null);
         r.setName(p.getName());
         r.setDescription(p.getDescription());
         r.setPid(p.getPid());
+        r.setIcon(p.getIcon());
         return r;
     }
 }
