@@ -20,12 +20,10 @@ CREATE TABLE `sm_system_position` (
   `id` varchar(64) NOT NULL,
   `name` varchar(100) NOT NULL,
   `code` varchar(50) DEFAULT NULL,
-  `department_id` varchar(64) DEFAULT NULL,
   `type` int DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `sort` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_pos_dept` (`department_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `sm_system_user` (
@@ -54,6 +52,7 @@ CREATE TABLE `sm_system_role` (
   `description` varchar(255) DEFAULT NULL,
   `permission_scope` int DEFAULT NULL,
   `sort` int DEFAULT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -79,18 +78,18 @@ CREATE TABLE `sm_system_role_permission` (
 INSERT INTO `sm_system_department` (`id`,`pid`,`name`,`icon`,`is_root`,`code`,`sort`) VALUES
 ('dept_root',NULL,'System','settings',1,'SYS',1);
 
-INSERT INTO `sm_system_position` (`id`,`name`,`code`,`department_id`,`type`,`description`,`sort`) VALUES
-('pos_admin','Administrator','ADMIN','dept_root',1,'System administrator',1),
-('pos_user','User','USER','dept_root',2,'Standard user',2);
+INSERT INTO `sm_system_position` (`id`,`name`,`code`,`type`,`description`,`sort`) VALUES
+('pos_admin','Administrator','ADMIN',1,'System administrator',1),
+('pos_user','User','USER',2,'Standard user',2);
 
 INSERT INTO `sm_system_user` (`id`,`first_name`,`last_name`,`account`,`password`,`email`,`phone`,`gender`,`avatar`,`description`,`deleted`,`enable`,`department_id`,`position_id`) VALUES
 ('u_admin','Admin','','admin','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','admin@example.com','',1,'','Super administrator',0,1,'dept_root','pos_admin'),
 ('u_user','User','','user','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user'),
 ('u_vben','Vben','','vben','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user');
 
-INSERT INTO `sm_system_role` (`id`,`name`,`description`,`permission_scope`,`sort`) VALUES
-('r_admin','ROLE_ADMIN','Administrator role',999,1),
-('r_user','ROLE_USER','User role',1,2);
+INSERT INTO `sm_system_role` (`id`,`name`,`description`,`permission_scope`,`sort`,`enabled`) VALUES
+('r_admin','ROLE_ADMIN','Administrator role',999,1,1),
+('r_user','ROLE_USER','User role',1,2,1);
 
 INSERT INTO `sm_system_permission` (`id`,`code`,`type`,`name`,`description`,`pid`,`icon`) VALUES
 ('p_sys','system','CATALOG','系统管理','System management',NULL,'carbon:settings'),

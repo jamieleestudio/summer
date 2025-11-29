@@ -5,31 +5,37 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
-
 
 @Getter
 @Setter
 @Entity
 @DynamicUpdate
 @Table(name = "sm_system_role")
-public class Role  extends AbstractPersistable<String>{
+public class Role {
 
+    @Id
+    @UuidGenerator
+    private String id;
+    
     @Column(name = "name")
-    private String  name;
+    private String name;
 
     @Column(name = "description")
-    private String  description;
+    private String description;
 
     @Column(name = "permission_scope")
     private Integer permissionScope;
 
     @Column(name = "sort")
     private Integer sort;
+    
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = true;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "sm_system_role_permission",
             joinColumns = @JoinColumn(name = "role_id"),
@@ -37,5 +43,9 @@ public class Role  extends AbstractPersistable<String>{
     )
     @BatchSize(size = 10)
     private List<Permission> permissions;
-
+    
+    @Transient
+    public boolean isNew() {
+        return this.id == null;
+    }
 }

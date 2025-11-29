@@ -6,6 +6,7 @@ public class RoleResponse {
     private String description;
     private Integer permissionScope;
     private Integer sort;
+    private Boolean enabled;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -17,4 +18,6 @@ public class RoleResponse {
     public void setPermissionScope(Integer permissionScope) { this.permissionScope = permissionScope; }
     public Integer getSort() { return sort; }
     public void setSort(Integer sort) { this.sort = sort; }
+    public Boolean getEnabled() { return enabled; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 }

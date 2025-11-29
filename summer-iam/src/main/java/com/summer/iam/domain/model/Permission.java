@@ -4,14 +4,19 @@ import com.summer.framework.orm.domain.Treeable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.hibernate.annotations.UuidGenerator;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name = "sm_system_permission")
-public class Permission extends AbstractPersistable<String> implements Treeable<String> {
+public class Permission implements Treeable<String> {
 
+    @Id
+    @UuidGenerator
+    private String id;
+    
     public enum Type {
         CATALOG,
         MENU,
@@ -38,5 +43,10 @@ public class Permission extends AbstractPersistable<String> implements Treeable<
 
     @Column(name = "icon")
     private String icon;
-
+    
+    
+    @Transient
+    public boolean isNew() {
+        return this.id == null;
+    }
 }

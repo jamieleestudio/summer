@@ -14,4 +14,9 @@ public interface PermissionRepositoryJpa extends JpaRepository<Permission, Strin
 
     Page<Permission> findByType(Permission.Type type, Pageable pageable);
 
+    default List<Permission> findByIds(List<String> permissionIds) {
+        return findAllById(permissionIds);
+    }
+
+
 }

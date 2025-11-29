@@ -23,6 +23,7 @@ public class RoleQueryService {
     }
 
     public Page<RoleResponse> findAll(Pageable pageable) {
+        // 默认只查询启用的角色
         return roleRepository.findAll(pageable).map(this::toResponse);
     }
 
@@ -47,6 +48,7 @@ public class RoleQueryService {
         resp.setDescription(r.getDescription());
         resp.setPermissionScope(r.getPermissionScope());
         resp.setSort(r.getSort());
+        resp.setEnabled(r.getEnabled());
         return resp;
     }
     
@@ -58,6 +60,7 @@ public class RoleQueryService {
         resp.setDescription(r.getDescription());
         resp.setPermissionScope(r.getPermissionScope());
         resp.setSort(r.getSort());
+        resp.setEnabled(r.getEnabled());
         // 设置角色的权限ID列表
         if (r.getPermissions() != null) {
             List<String> permissionIds = r.getPermissions().stream()

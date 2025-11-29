@@ -16,6 +16,10 @@ public interface RoleRepository {
     List<Role> findAll();
 
     Page<Role> findAll(Pageable pageable);
+    
+    List<Role> findByEnabled(Boolean enabled);
+    
+    Page<Role> findByEnabled(Boolean enabled, Pageable pageable);
 
     Role save(Role role);
 

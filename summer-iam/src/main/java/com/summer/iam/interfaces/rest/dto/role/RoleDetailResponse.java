@@ -9,6 +9,7 @@ public class RoleDetailResponse {
     private String description;
     private Integer permissionScope;
     private Integer sort;
+    private Boolean enabled;
     private List<String> permissions = new ArrayList<>();
 
     public String getId() { return id; }
@@ -21,6 +22,8 @@ public class RoleDetailResponse {
     public void setPermissionScope(Integer permissionScope) { this.permissionScope = permissionScope; }
     public Integer getSort() { return sort; }
     public void setSort(Integer sort) { this.sort = sort; }
+    public Boolean getEnabled() { return enabled; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
     public List<String> getPermissions() { return permissions; }
     public void setPermissions(List<String> permissions) { this.permissions = permissions; }
 }
