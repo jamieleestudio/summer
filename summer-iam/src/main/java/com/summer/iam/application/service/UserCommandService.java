@@ -5,6 +5,7 @@ import com.summer.iam.domain.model.Position;
 import com.summer.iam.domain.model.User;
 import com.summer.iam.domain.repository.DepartmentRepository;
 import com.summer.iam.domain.repository.PositionRepository;
+import com.summer.iam.domain.repository.RoleRepository;
 import com.summer.iam.domain.repository.UserRepository;
 import com.summer.iam.interfaces.rest.dto.user.UserCreateRequest;
 import com.summer.iam.interfaces.rest.dto.user.UserResponse;
@@ -13,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserCommandService {
@@ -21,14 +24,17 @@ public class UserCommandService {
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     public UserCommandService(UserRepository userRepository,
                               DepartmentRepository departmentRepository,
                               PositionRepository positionRepository,
+                              RoleRepository roleRepository,
                               PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.departmentRepository = departmentRepository;
         this.positionRepository = positionRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -47,8 +53,19 @@ public class UserCommandService {
         if (req.getDepartmentId() != null) {
             departmentRepository.findById(req.getDepartmentId()).ifPresent(user::setDepartment);
         }
-        if (req.getPositionId() != null) {
-            positionRepository.findById(req.getPositionId()).ifPresent(user::setPosition);
+        if (req.getPositionIds() != null) {
+            List<com.summer.iam.domain.model.Position> positions = new ArrayList<>();
+            for (String pid : req.getPositionIds()) {
+                positionRepository.findById(pid).ifPresent(positions::add);
+            }
+            user.setPositions(positions);
+        }
+        if (req.getRoleIds() != null) {
+            List<com.summer.iam.domain.model.Role> roles = new ArrayList<>();
+            for (String rid : req.getRoleIds()) {
+                roleRepository.findById(rid).ifPresent(roles::add);
+            }
+            user.setRoles(roles);
         }
         User saved = userRepository.save(user);
         return toResponse(saved);
@@ -70,9 +87,19 @@ public class UserCommandService {
                 Department dept = departmentRepository.findById(req.getDepartmentId()).orElse(null);
                 user.setDepartment(dept);
             }
-            if (req.getPositionId() != null) {
-                Position pos = positionRepository.findById(req.getPositionId()).orElse(null);
-                user.setPosition(pos);
+            if (req.getPositionIds() != null) {
+                List<Position> positions = new ArrayList<>();
+                for (String pid : req.getPositionIds()) {
+                    positionRepository.findById(pid).ifPresent(positions::add);
+                }
+                user.setPositions(positions);
+            }
+            if (req.getRoleIds() != null) {
+                List<com.summer.iam.domain.model.Role> roles = new ArrayList<>();
+                for (String rid : req.getRoleIds()) {
+                    roleRepository.findById(rid).ifPresent(roles::add);
+                }
+                user.setRoles(roles);
             }
             User saved = userRepository.save(user);
             return toResponse(saved);
@@ -99,9 +126,25 @@ public class UserCommandService {
             r.setDepartmentId(u.getDepartment().getId());
             r.setDepartmentName(u.getDepartment().getName());
         }
-        if (u.getPosition() != null) {
-            r.setPositionId(u.getPosition().getId());
-            r.setPositionName(u.getPosition().getName());
+        if (u.getPositions() != null) {
+            List<String> pids = new ArrayList<>();
+            List<String> pnames = new ArrayList<>();
+            for (Position p : u.getPositions()) {
+                pids.add(p.getId());
+                pnames.add(p.getName());
+            }
+            r.setPositionIds(pids);
+            r.setPositionNames(pnames);
+        }
+        if (u.getRoles() != null) {
+            List<String> rids = new ArrayList<>();
+            List<String> rnames = new ArrayList<>();
+            for (com.summer.iam.domain.model.Role role : u.getRoles()) {
+                rids.add(role.getId());
+                rnames.add(role.getName());
+            }
+            r.setRoleIds(rids);
+            r.setRoleNames(rnames);
         }
         return r;
     }

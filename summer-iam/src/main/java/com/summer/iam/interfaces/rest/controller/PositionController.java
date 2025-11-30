@@ -5,6 +5,7 @@ import com.summer.iam.application.service.PositionCommandService;
 import com.summer.iam.interfaces.rest.dto.position.PositionCreateRequest;
 import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
 import com.summer.iam.interfaces.rest.dto.position.PositionUpdateRequest;
+import com.summer.iam.interfaces.rest.dto.position.PositionEnabledRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -56,5 +57,12 @@ public class PositionController {
     @Operation(summary = "Delete position")
     public void delete(@PathVariable("id") String id) {
         positionCommandService.delete(id);
+    }
+
+    @PutMapping("/{id}/enabled")
+    @Operation(summary = "Set position enabled state")
+    public Optional<PositionResponse> setEnabled(@PathVariable("id") String id,
+                                                 @RequestBody PositionEnabledRequest request) {
+        return positionCommandService.setEnabled(id, request.getEnabled());
     }
 }

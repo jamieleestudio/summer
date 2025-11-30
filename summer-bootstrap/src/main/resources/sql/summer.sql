@@ -1,9 +1,14 @@
+CREATE DATABASE IF NOT EXISTS `summer` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `summer`;
+
 DROP TABLE IF EXISTS `sm_system_role_permission`;
 DROP TABLE IF EXISTS `sm_system_permission`;
 DROP TABLE IF EXISTS `sm_system_role`;
 DROP TABLE IF EXISTS `sm_system_user`;
 DROP TABLE IF EXISTS `sm_system_position`;
 DROP TABLE IF EXISTS `sm_system_department`;
+DROP TABLE IF EXISTS `sm_system_user_position`;
+DROP TABLE IF EXISTS `sm_system_user_role`;
 
 CREATE TABLE `sm_system_department` (
   `id` varchar(64) NOT NULL,
@@ -23,6 +28,7 @@ CREATE TABLE `sm_system_position` (
   `type` int DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `sort` int DEFAULT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -40,10 +46,23 @@ CREATE TABLE `sm_system_user` (
   `deleted` tinyint(1) DEFAULT 0,
   `enable` tinyint(1) DEFAULT 1,
   `department_id` varchar(64) DEFAULT NULL,
-  `position_id` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_user_dept` (`department_id`),
-  KEY `idx_user_pos` (`position_id`)
+  KEY `idx_user_account` (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `sm_system_user_position` (
+  `user_id` varchar(64) NOT NULL,
+  `position_id` varchar(64) NOT NULL,
+  PRIMARY KEY (`user_id`,`position_id`),
+  KEY `idx_up_pos` (`position_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `sm_system_user_role` (
+  `user_id` varchar(64) NOT NULL,
+  `role_id` varchar(64) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `idx_ur_role` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `sm_system_role` (
@@ -78,14 +97,14 @@ CREATE TABLE `sm_system_role_permission` (
 INSERT INTO `sm_system_department` (`id`,`pid`,`name`,`icon`,`is_root`,`code`,`sort`) VALUES
 ('dept_root',NULL,'System','settings',1,'SYS',1);
 
-INSERT INTO `sm_system_position` (`id`,`name`,`code`,`type`,`description`,`sort`) VALUES
-('pos_admin','Administrator','ADMIN',1,'System administrator',1),
-('pos_user','User','USER',2,'Standard user',2);
+INSERT INTO `sm_system_position` (`id`,`name`,`code`,`type`,`description`,`sort`,`enabled`) VALUES
+('pos_admin','Administrator','ADMIN',1,'System administrator',1,1),
+('pos_user','User','USER',2,'Standard user',2,1);
 
-INSERT INTO `sm_system_user` (`id`,`first_name`,`last_name`,`account`,`password`,`email`,`phone`,`gender`,`avatar`,`description`,`deleted`,`enable`,`department_id`,`position_id`) VALUES
-('u_admin','Admin','','admin','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','admin@example.com','',1,'','Super administrator',0,1,'dept_root','pos_admin'),
-('u_user','User','','user','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user'),
-('u_vben','Vben','','vben','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root','pos_user');
+INSERT INTO `sm_system_user` (`id`,`first_name`,`last_name`,`account`,`password`,`email`,`phone`,`gender`,`avatar`,`description`,`deleted`,`enable`,`department_id`) VALUES
+('u_admin','Admin','','admin','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','admin@example.com','',1,'','Super administrator',0,1,'dept_root'),
+('u_user','User','','user','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root'),
+('u_vben','Vben','','vben','$2a$12$W8rD3AaAeKnrAH5Jii/BV.HVrE1.5tluTxrtCMxGp6Mu120lZwWti','user@example.com','',1,'','Standard user',0,1,'dept_root');
 
 INSERT INTO `sm_system_role` (`id`,`name`,`description`,`permission_scope`,`sort`,`enabled`) VALUES
 ('r_admin','ROLE_ADMIN','Administrator role',999,1,1),
@@ -126,3 +145,13 @@ INSERT INTO `sm_system_role_permission` (`role_id`,`permission_id`) VALUES
 ('r_admin','p_perm_c'),('r_admin','p_perm_r'),('r_admin','p_perm_u'),('r_admin','p_perm_d'),
 ('r_admin','p_dept_c'),('r_admin','p_dept_r'),('r_admin','p_dept_u'),('r_admin','p_dept_d'),
 ('r_admin','p_pos_c'),('r_admin','p_pos_r'),('r_admin','p_pos_u'),('r_admin','p_pos_d');
+
+INSERT INTO `sm_system_user_position` (`user_id`,`position_id`) VALUES
+('u_admin','pos_admin'),
+('u_user','pos_user'),
+('u_vben','pos_user');
+
+INSERT INTO `sm_system_user_role` (`user_id`,`role_id`) VALUES
+('u_admin','r_admin'),
+('u_user','r_user'),
+('u_vben','r_user');

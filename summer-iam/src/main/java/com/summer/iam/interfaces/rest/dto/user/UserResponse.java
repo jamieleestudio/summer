@@ -13,8 +13,10 @@ public class UserResponse {
     private Boolean enable;
     private String departmentId;
     private String departmentName;
-    private String positionId;
-    private String positionName;
+    private java.util.List<String> positionIds;
+    private java.util.List<String> positionNames;
+    private java.util.List<String> roleIds;
+    private java.util.List<String> roleNames;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -40,8 +42,12 @@ public class UserResponse {
     public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
     public String getDepartmentName() { return departmentName; }
     public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
-    public String getPositionId() { return positionId; }
-    public void setPositionId(String positionId) { this.positionId = positionId; }
-    public String getPositionName() { return positionName; }
-    public void setPositionName(String positionName) { this.positionName = positionName; }
+    public java.util.List<String> getPositionIds() { return positionIds; }
+    public void setPositionIds(java.util.List<String> positionIds) { this.positionIds = positionIds; }
+    public java.util.List<String> getPositionNames() { return positionNames; }
+    public void setPositionNames(java.util.List<String> positionNames) { this.positionNames = positionNames; }
+    public java.util.List<String> getRoleIds() { return roleIds; }
+    public void setRoleIds(java.util.List<String> roleIds) { this.roleIds = roleIds; }
+    public java.util.List<String> getRoleNames() { return roleNames; }
+    public void setRoleNames(java.util.List<String> roleNames) { this.roleNames = roleNames; }
 }

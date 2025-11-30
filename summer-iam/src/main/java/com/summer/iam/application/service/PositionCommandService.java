@@ -23,6 +23,7 @@ public class PositionCommandService {
         p.setType(req.getType());
         p.setDescription(req.getDescription());
         p.setSort(req.getSort());
+        p.setEnabled(req.getEnabled() != null ? req.getEnabled() : true);
         Position saved = positionRepository.save(p);
         return toResponse(saved);
     }
@@ -34,6 +35,9 @@ public class PositionCommandService {
             p.setType(req.getType());
             p.setDescription(req.getDescription());
             p.setSort(req.getSort());
+            if (req.getEnabled() != null) {
+                p.setEnabled(req.getEnabled());
+            }
             Position saved = positionRepository.save(p);
             return toResponse(saved);
         });
@@ -41,6 +45,14 @@ public class PositionCommandService {
 
     public void delete(String id) {
         positionRepository.deleteById(id);
+    }
+
+    public Optional<PositionResponse> setEnabled(String id, Boolean enabled) {
+        return positionRepository.findById(id).map(p -> {
+            p.setEnabled(enabled);
+            Position saved = positionRepository.save(p);
+            return toResponse(saved);
+        });
     }
 
     private PositionResponse toResponse(Position p) {
@@ -51,6 +63,7 @@ public class PositionCommandService {
         r.setType(p.getType());
         r.setDescription(p.getDescription());
         r.setSort(p.getSort());
+        r.setEnabled(p.getEnabled());
         return r;
     }
 }

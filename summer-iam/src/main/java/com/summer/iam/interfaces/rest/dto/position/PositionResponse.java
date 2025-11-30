@@ -7,6 +7,7 @@ public class PositionResponse {
     private Integer type;
     private String description;
     private Integer sort;
+    private Boolean enabled;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -20,4 +21,6 @@ public class PositionResponse {
     public void setDescription(String description) { this.description = description; }
     public Integer getSort() { return sort; }
     public void setSort(Integer sort) { this.sort = sort; }
+    public Boolean getEnabled() { return enabled; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 }

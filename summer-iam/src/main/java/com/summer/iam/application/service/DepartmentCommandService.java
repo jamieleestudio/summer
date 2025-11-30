@@ -6,6 +6,7 @@ import com.summer.iam.interfaces.rest.dto.department.DepartmentCreateRequest;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentResponse;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentUpdateRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ public class DepartmentCommandService {
         this.departmentRepository = departmentRepository;
     }
 
+    @Transactional
     public DepartmentResponse create(DepartmentCreateRequest req) {
         Department d = new Department();
         d.setPid(req.getPid());
@@ -29,6 +31,7 @@ public class DepartmentCommandService {
         return toResponse(saved);
     }
 
+    @Transactional
     public Optional<DepartmentResponse> update(String id, DepartmentUpdateRequest req) {
         return departmentRepository.findById(id).map(d -> {
             d.setPid(req.getPid());
@@ -42,6 +45,7 @@ public class DepartmentCommandService {
         });
     }
 
+    @Transactional
     public void delete(String id) {
         departmentRepository.deleteById(id);
     }

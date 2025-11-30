@@ -12,7 +12,8 @@ public class UserUpdateRequest {
     private String description;
     private Boolean enable;
     private String departmentId;
-    private String positionId;
+    private java.util.List<String> positionIds;
+    private java.util.List<String> roleIds;
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -36,6 +37,8 @@ public class UserUpdateRequest {
     public void setEnable(Boolean enable) { this.enable = enable; }
     public String getDepartmentId() { return departmentId; }
     public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
-    public String getPositionId() { return positionId; }
-    public void setPositionId(String positionId) { this.positionId = positionId; }
+    public java.util.List<String> getPositionIds() { return positionIds; }
+    public void setPositionIds(java.util.List<String> positionIds) { this.positionIds = positionIds; }
+    public java.util.List<String> getRoleIds() { return roleIds; }
+    public void setRoleIds(java.util.List<String> roleIds) { this.roleIds = roleIds; }
 }

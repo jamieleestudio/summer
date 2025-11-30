@@ -1,12 +1,12 @@
 package com.summer.iam.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,7 +18,11 @@ import java.util.Objects;
 @Entity
 @DynamicUpdate
 @Table(name = "sm_system_user")
-public class User extends AbstractPersistable<String> {
+public class User  {
+
+    @Id
+    @UuidGenerator
+    private String id;
 
     private String firstName;
 
@@ -42,13 +46,25 @@ public class User extends AbstractPersistable<String> {
 
     private Boolean enable;
 
-    @jakarta.persistence.ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
-    @jakarta.persistence.JoinColumn(name = "department_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id")
     private Department department;
 
-    @jakarta.persistence.ManyToOne(fetch = jakarta.persistence.FetchType.EAGER)
-    @jakarta.persistence.JoinColumn(name = "position_id")
-    private Position position;
+    @ManyToMany
+    @JoinTable(
+            name = "sm_system_user_position",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "position_id")
+    )
+    private List<Position> positions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "sm_system_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
 
     /**
      * 验证密码

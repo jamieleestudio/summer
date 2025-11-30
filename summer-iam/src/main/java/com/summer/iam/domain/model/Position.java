@@ -4,14 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.hibernate.annotations.UuidGenerator;
 
 @Getter
 @Setter
 @Entity
 @DynamicUpdate
 @Table(name = "sm_system_position")
-public class Position extends AbstractPersistable<String> {
+public class Position  {
+
+    @Id
+    @UuidGenerator
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -27,4 +31,7 @@ public class Position extends AbstractPersistable<String> {
 
     @Column(name = "sort")
     private Integer sort;
+
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled = true;
 }

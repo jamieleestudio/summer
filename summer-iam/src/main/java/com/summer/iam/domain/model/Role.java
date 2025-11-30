@@ -35,13 +35,13 @@ public class Role {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = true;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "sm_system_role_permission",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
-    @BatchSize(size = 10)
+    @BatchSize(size = 50)
     private List<Permission> permissions;
     
     @Transient

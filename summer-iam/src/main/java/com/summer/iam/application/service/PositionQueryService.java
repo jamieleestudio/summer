@@ -33,6 +33,7 @@ public class PositionQueryService {
         r.setType(p.getType());
         r.setDescription(p.getDescription());
         r.setSort(p.getSort());
+        r.setEnabled(p.getEnabled());
         return r;
     }
 }

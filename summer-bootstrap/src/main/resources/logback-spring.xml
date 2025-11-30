@@ -184,6 +184,13 @@
     <logger name="org.springframework" level="info" />
     <logger name="com.zaxxer.hikari.pool" level="info" />
 
+    <!-- JPA/Hibernate SQL logging -->
+    <logger name="org.hibernate.SQL" level="debug" />
+    <logger name="org.hibernate.orm.jdbc.bind" level="trace" />
+    <logger name="org.hibernate.type.descriptor.jdbc" level="trace" />
+    <logger name="org.hibernate.engine.jdbc.batch.internal" level="debug" />
+    <logger name="org.hibernate.stat" level="debug" />
+
 
     <root level="debug">
         <appender-ref ref="CONSOLE" />
