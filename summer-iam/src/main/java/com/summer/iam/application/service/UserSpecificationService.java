@@ -1,15 +1,15 @@
 package com.summer.iam.application.service;
 
-import com.summer.iam.domain.model.User;
-import com.summer.iam.domain.model.User_;
-import com.summer.iam.infrastructure.persistence.jpa.UserRepositoryJpa;
-import com.summer.iam.infrastructure.persistence.jpa.specification.UserSpecification;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.summer.iam.domain.model.User;
+import com.summer.iam.infrastructure.persistence.jpa.UserRepositoryJpa;
+import com.summer.iam.infrastructure.persistence.jpa.specification.UserSpecification;
 
 /**
  * 演示JPA Specification使用的服务类
