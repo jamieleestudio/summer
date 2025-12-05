@@ -1,6 +1,9 @@
 package com.summer.iam.interfaces.rest.controller;
 
+import com.summer.iam.application.command.UserCreateCommand;
+import com.summer.iam.application.command.UserUpdateCommand;
 import com.summer.iam.application.service.UserCommandService;
+import com.summer.iam.interfaces.rest.assembler.UserAssembler;
 import com.summer.iam.interfaces.rest.dto.user.UserCreateRequest;
 import com.summer.iam.interfaces.rest.dto.user.UserResponse;
 import com.summer.iam.interfaces.rest.dto.user.UserUpdateRequest;
@@ -38,14 +41,16 @@ public class UserController {
     @PostMapping
     @Operation(summary = "Create user")
     public UserResponse create(@RequestBody UserCreateRequest request) {
-        return userCommandService.create(request);
+        UserCreateCommand cmd = UserAssembler.toCreateCommand(request);
+        return userCommandService.create(cmd);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update user")
     public Optional<UserResponse> update(@PathVariable("id") String id,
                                  @RequestBody UserUpdateRequest request) {
-        return userCommandService.update(id, request);
+        UserUpdateCommand cmd = UserAssembler.toUpdateCommand(request);
+        return userCommandService.update(id, cmd);
     }
 
     @DeleteMapping("/{id}")

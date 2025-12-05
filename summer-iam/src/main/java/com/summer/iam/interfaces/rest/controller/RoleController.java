@@ -1,6 +1,9 @@
 package com.summer.iam.interfaces.rest.controller;
 
+import com.summer.iam.application.command.RoleCreateCommand;
+import com.summer.iam.application.command.RoleUpdateCommand;
 import com.summer.iam.application.service.RoleCommandService;
+import com.summer.iam.interfaces.rest.assembler.RoleAssembler;
 import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
 import com.summer.iam.interfaces.rest.dto.role.RoleCreateRequest;
 import com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse;
@@ -49,13 +52,15 @@ public class RoleController {
     @PostMapping
     @Operation(summary = "Create a new role")
     public RoleDetailResponse create(@Valid @RequestBody RoleCreateRequest request) {
-        return roleCommandService.create(request);
+        RoleCreateCommand cmd = RoleAssembler.toCreateCommand(request);
+        return roleCommandService.create(cmd);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update role")
     public RoleDetailResponse update(@PathVariable("id") String id, @Valid @RequestBody RoleUpdateRequest request) {
-        return roleCommandService.update(id, request)
+        RoleUpdateCommand cmd = RoleAssembler.toUpdateCommand(request);
+        return roleCommandService.update(id, cmd)
                 .orElse(null);
     }
 

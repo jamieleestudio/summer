@@ -1,10 +1,10 @@
 package com.summer.iam.application.service;
 
+import com.summer.iam.application.command.DepartmentCreateCommand;
+import com.summer.iam.application.command.DepartmentUpdateCommand;
 import com.summer.iam.domain.model.Department;
 import com.summer.iam.domain.repository.DepartmentRepository;
-import com.summer.iam.interfaces.rest.dto.department.DepartmentCreateRequest;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentResponse;
-import com.summer.iam.interfaces.rest.dto.department.DepartmentUpdateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,27 +20,27 @@ public class DepartmentCommandService {
     }
 
     @Transactional
-    public DepartmentResponse create(DepartmentCreateRequest req) {
+    public DepartmentResponse create(DepartmentCreateCommand cmd) {
         Department d = new Department();
-        d.setPid(req.getPid());
-        d.setName(req.getName());
-        d.setIcon(req.getIcon());
-        d.setRoot(req.getRoot());
-        d.setCode(req.getCode());
-        d.setSort(req.getSort());
+        d.setPid(cmd.getPid());
+        d.setName(cmd.getName());
+        d.setIcon(cmd.getIcon());
+        d.setRoot(cmd.getRoot());
+        d.setCode(cmd.getCode());
+        d.setSort(cmd.getSort());
         Department saved = departmentRepository.save(d);
         return toResponse(saved);
     }
 
     @Transactional
-    public Optional<DepartmentResponse> update(String id, DepartmentUpdateRequest req) {
+    public Optional<DepartmentResponse> update(String id, DepartmentUpdateCommand cmd) {
         return departmentRepository.findById(id).map(d -> {
-            d.setPid(req.getPid());
-            d.setName(req.getName());
-            d.setIcon(req.getIcon());
-            d.setRoot(req.getRoot());
-            d.setCode(req.getCode());
-            d.setSort(req.getSort());
+            d.setPid(cmd.getPid());
+            d.setName(cmd.getName());
+            d.setIcon(cmd.getIcon());
+            d.setRoot(cmd.getRoot());
+            d.setCode(cmd.getCode());
+            d.setSort(cmd.getSort());
             Department saved = departmentRepository.save(d);
             return toResponse(saved);
         });

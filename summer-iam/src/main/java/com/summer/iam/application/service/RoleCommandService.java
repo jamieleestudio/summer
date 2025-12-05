@@ -1,12 +1,12 @@
 package com.summer.iam.application.service;
 
+import com.summer.iam.application.command.RoleCreateCommand;
+import com.summer.iam.application.command.RoleUpdateCommand;
 import com.summer.iam.domain.model.Permission;
 import com.summer.iam.domain.model.Role;
 import com.summer.iam.domain.repository.PermissionRepository;
 import com.summer.iam.domain.repository.RoleRepository;
-import com.summer.iam.interfaces.rest.dto.role.RoleCreateRequest;
 import com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse;
-import com.summer.iam.interfaces.rest.dto.role.RoleUpdateRequest;
 import com.summer.iam.interfaces.rest.dto.role.RoleResponse;
 import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
 import org.springframework.stereotype.Service;
@@ -29,23 +29,23 @@ public class RoleCommandService {
     }
 
     @Transactional
-    public RoleDetailResponse create(RoleCreateRequest req) {
+    public RoleDetailResponse create(RoleCreateCommand cmd) {
         // 检查角色名称是否已存在
-        if (roleRepository.findByName(req.getName()).isPresent()) {
-            throw new IllegalArgumentException("角色名称已存在: " + req.getName());
+        if (roleRepository.findByName(cmd.getName()).isPresent()) {
+            throw new IllegalArgumentException("角色名称已存在: " + cmd.getName());
         }
 
         Role role = new Role();
-        role.setName(req.getName());
-        role.setDescription(req.getDescription());
-        role.setPermissionScope(req.getPermissionScope());
-        role.setSort(req.getSort());
+        role.setName(cmd.getName());
+        role.setDescription(cmd.getDescription());
+        role.setPermissionScope(cmd.getPermissionScope());
+        role.setSort(cmd.getSort());
         // 如果没有指定enabled，则使用默认值true
-        role.setEnabled(req.getEnabled() != null ? req.getEnabled() : true);
+        role.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
 
         // 设置权限关联
-        if (req.getPermissions() != null && !req.getPermissions().isEmpty()) {
-            List<Permission> permissions = permissionRepository.findByIds(req.getPermissions());
+        if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
+            List<Permission> permissions = permissionRepository.findByIds(cmd.getPermissions());
             role.setPermissions(permissions);
         }
 
@@ -54,27 +54,27 @@ public class RoleCommandService {
     }
 
     @Transactional
-    public Optional<RoleDetailResponse> update(String id, RoleUpdateRequest req) {
+    public Optional<RoleDetailResponse> update(String id, RoleUpdateCommand cmd) {
         return roleRepository.findById(id).map(role -> {
             // 检查角色名称是否已存在（排除当前角色）
-            roleRepository.findByName(req.getName())
+            roleRepository.findByName(cmd.getName())
                     .filter(existing -> !existing.getId().equals(id))
                     .ifPresent(existing -> {
-                        throw new IllegalArgumentException("角色名称已存在: " + req.getName());
+                        throw new IllegalArgumentException("角色名称已存在: " + cmd.getName());
                     });
 
-            role.setName(req.getName());
-            role.setDescription(req.getDescription());
-            role.setPermissionScope(req.getPermissionScope());
-            role.setSort(req.getSort());
+            role.setName(cmd.getName());
+            role.setDescription(cmd.getDescription());
+            role.setPermissionScope(cmd.getPermissionScope());
+            role.setSort(cmd.getSort());
             // 如果请求中提供了enabled字段，则更新
-            if (req.getEnabled() != null) {
-                role.setEnabled(req.getEnabled());
+            if (cmd.getEnabled() != null) {
+                role.setEnabled(cmd.getEnabled());
             }
 
             // 更新权限关联
-            if (req.getPermissions() != null && !req.getPermissions().isEmpty()) {
-                List<Permission> permissions = permissionRepository.findByIds(req.getPermissions());
+            if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
+                List<Permission> permissions = permissionRepository.findByIds(cmd.getPermissions());
                 role.setPermissions(permissions);
             }else{
                 role.setPermissions(new ArrayList<>());

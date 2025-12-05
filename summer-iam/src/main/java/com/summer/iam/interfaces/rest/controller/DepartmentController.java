@@ -1,6 +1,9 @@
 package com.summer.iam.interfaces.rest.controller;
 
+import com.summer.iam.application.command.DepartmentCreateCommand;
+import com.summer.iam.application.command.DepartmentUpdateCommand;
 import com.summer.iam.application.service.DepartmentCommandService;
+import com.summer.iam.interfaces.rest.assembler.DepartmentAssembler;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentCreateRequest;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentResponse;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentUpdateRequest;
@@ -37,14 +40,16 @@ public class DepartmentController {
     @PostMapping
     @Operation(summary = "Create department")
     public DepartmentResponse create(@RequestBody DepartmentCreateRequest request) {
-        return departmentCommandService.create(request);
+        DepartmentCreateCommand cmd = DepartmentAssembler.toCreateCommand(request);
+        return departmentCommandService.create(cmd);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update department")
     public Optional<DepartmentResponse> update(@PathVariable("id") String id,
                                                @RequestBody DepartmentUpdateRequest request) {
-        return departmentCommandService.update(id, request);
+        DepartmentUpdateCommand cmd = DepartmentAssembler.toUpdateCommand(request);
+        return departmentCommandService.update(id, cmd);
     }
 
     @DeleteMapping("/{id}")

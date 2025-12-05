@@ -1,6 +1,9 @@
 package com.summer.iam.interfaces.rest.controller;
 
+import com.summer.iam.application.command.PositionCreateCommand;
+import com.summer.iam.application.command.PositionUpdateCommand;
 import com.summer.iam.application.service.PositionCommandService;
+import com.summer.iam.interfaces.rest.assembler.PositionAssembler;
 import com.summer.iam.interfaces.rest.dto.position.PositionCreateRequest;
 import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
 import com.summer.iam.interfaces.rest.dto.position.PositionUpdateRequest;
@@ -39,14 +42,16 @@ public class PositionController {
     @PostMapping
     @Operation(summary = "Create position")
     public PositionResponse create(@RequestBody PositionCreateRequest request) {
-        return positionCommandService.create(request);
+        PositionCreateCommand cmd = PositionAssembler.toCreateCommand(request);
+        return positionCommandService.create(cmd);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update position")
     public Optional<PositionResponse> update(@PathVariable("id") String id,
                                              @RequestBody PositionUpdateRequest request) {
-        return positionCommandService.update(id, request);
+        PositionUpdateCommand cmd = PositionAssembler.toUpdateCommand(request);
+        return positionCommandService.update(id, cmd);
     }
 
     @DeleteMapping("/{id}")

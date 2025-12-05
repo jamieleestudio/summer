@@ -1,5 +1,7 @@
 package com.summer.iam.application.service;
 
+import com.summer.iam.application.command.UserCreateCommand;
+import com.summer.iam.application.command.UserUpdateCommand;
 import com.summer.iam.domain.model.Department;
 import com.summer.iam.domain.model.Position;
 import com.summer.iam.domain.model.User;
@@ -7,9 +9,7 @@ import com.summer.iam.domain.repository.DepartmentRepository;
 import com.summer.iam.domain.repository.PositionRepository;
 import com.summer.iam.domain.repository.RoleRepository;
 import com.summer.iam.domain.repository.UserRepository;
-import com.summer.iam.interfaces.rest.dto.user.UserCreateRequest;
 import com.summer.iam.interfaces.rest.dto.user.UserResponse;
-import com.summer.iam.interfaces.rest.dto.user.UserUpdateRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,34 +42,34 @@ public class UserCommandService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse create(UserCreateRequest req) {
-        if (userRepository.findByAccount(req.getAccount()).isPresent()) {
-            throw new IllegalArgumentException("账号已存在: " + req.getAccount());
+    public UserResponse create(UserCreateCommand cmd) {
+        if (userRepository.findByAccount(cmd.getAccount()).isPresent()) {
+            throw new IllegalArgumentException("账号已存在: " + cmd.getAccount());
         }
         User user = new User();
-        user.setFirstName(req.getFirstName());
-        user.setLastName(req.getLastName());
-        user.setAccount(req.getAccount());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setEmail(req.getEmail());
-        user.setPhone(req.getPhone());
-        user.setGender(req.getGender());
-        user.setAvatar(req.getAvatar());
-        user.setDescription(req.getDescription());
-        user.setEnable(req.getEnable());
-        if (req.getDepartmentId() != null) {
-            departmentRepository.findById(req.getDepartmentId()).ifPresent(user::setDepartment);
+        user.setFirstName(cmd.getFirstName());
+        user.setLastName(cmd.getLastName());
+        user.setAccount(cmd.getAccount());
+        user.setPassword(passwordEncoder.encode(cmd.getPassword()));
+        user.setEmail(cmd.getEmail());
+        user.setPhone(cmd.getPhone());
+        user.setGender(cmd.getGender());
+        user.setAvatar(cmd.getAvatar());
+        user.setDescription(cmd.getDescription());
+        user.setEnable(cmd.getEnable());
+        if (cmd.getDepartmentId() != null) {
+            departmentRepository.findById(cmd.getDepartmentId()).ifPresent(user::setDepartment);
         }
-        if (req.getPositionIds() != null) {
+        if (cmd.getPositionIds() != null) {
             List<com.summer.iam.domain.model.Position> positions = new ArrayList<>();
-            for (String pid : req.getPositionIds()) {
+            for (String pid : cmd.getPositionIds()) {
                 positionRepository.findById(pid).ifPresent(positions::add);
             }
             user.setPositions(positions);
         }
-        if (req.getRoleIds() != null) {
+        if (cmd.getRoleIds() != null) {
             List<com.summer.iam.domain.model.Role> roles = new ArrayList<>();
-            for (String rid : req.getRoleIds()) {
+            for (String rid : cmd.getRoleIds()) {
                 roleRepository.findById(rid).ifPresent(roles::add);
             }
             user.setRoles(roles);
@@ -78,32 +78,32 @@ public class UserCommandService {
         return toResponse(saved);
     }
 
-    public Optional<UserResponse> update(String id, UserUpdateRequest req) {
+    public Optional<UserResponse> update(String id, UserUpdateCommand cmd) {
         return userRepository.findById(id).map(user -> {
-            if (req.getFirstName() != null) user.setFirstName(req.getFirstName());
-            if (req.getLastName() != null) user.setLastName(req.getLastName());
-            if (req.getAccount() != null) user.setAccount(req.getAccount());
-            if (req.getPassword() != null) user.setPassword(passwordEncoder.encode(req.getPassword()));
-            if (req.getEmail() != null) user.setEmail(req.getEmail());
-            if (req.getPhone() != null) user.setPhone(req.getPhone());
-            if (req.getGender() != null) user.setGender(req.getGender());
-            if (req.getAvatar() != null) user.setAvatar(req.getAvatar());
-            if (req.getDescription() != null) user.setDescription(req.getDescription());
-            if (req.getEnable() != null) user.setEnable(req.getEnable());
-            if (req.getDepartmentId() != null) {
-                Department dept = departmentRepository.findById(req.getDepartmentId()).orElse(null);
+            if (cmd.getFirstName() != null) user.setFirstName(cmd.getFirstName());
+            if (cmd.getLastName() != null) user.setLastName(cmd.getLastName());
+            if (cmd.getAccount() != null) user.setAccount(cmd.getAccount());
+            if (cmd.getPassword() != null) user.setPassword(passwordEncoder.encode(cmd.getPassword()));
+            if (cmd.getEmail() != null) user.setEmail(cmd.getEmail());
+            if (cmd.getPhone() != null) user.setPhone(cmd.getPhone());
+            if (cmd.getGender() != null) user.setGender(cmd.getGender());
+            if (cmd.getAvatar() != null) user.setAvatar(cmd.getAvatar());
+            if (cmd.getDescription() != null) user.setDescription(cmd.getDescription());
+            if (cmd.getEnable() != null) user.setEnable(cmd.getEnable());
+            if (cmd.getDepartmentId() != null) {
+                Department dept = departmentRepository.findById(cmd.getDepartmentId()).orElse(null);
                 user.setDepartment(dept);
             }
-            if (req.getPositionIds() != null) {
+            if (cmd.getPositionIds() != null) {
                 List<Position> positions = new ArrayList<>();
-                for (String pid : req.getPositionIds()) {
+                for (String pid : cmd.getPositionIds()) {
                     positionRepository.findById(pid).ifPresent(positions::add);
                 }
                 user.setPositions(positions);
             }
-            if (req.getRoleIds() != null) {
+            if (cmd.getRoleIds() != null) {
                 List<com.summer.iam.domain.model.Role> roles = new ArrayList<>();
-                for (String rid : req.getRoleIds()) {
+                for (String rid : cmd.getRoleIds()) {
                     roleRepository.findById(rid).ifPresent(roles::add);
                 }
                 user.setRoles(roles);

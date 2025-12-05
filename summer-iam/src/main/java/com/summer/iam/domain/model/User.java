@@ -7,7 +7,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * User domain model

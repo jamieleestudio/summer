@@ -1,10 +1,10 @@
 package com.summer.iam.application.service;
 
+import com.summer.iam.application.command.PositionCreateCommand;
+import com.summer.iam.application.command.PositionUpdateCommand;
 import com.summer.iam.domain.model.Position;
 import com.summer.iam.domain.repository.PositionRepository;
-import com.summer.iam.interfaces.rest.dto.position.PositionCreateRequest;
 import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
-import com.summer.iam.interfaces.rest.dto.position.PositionUpdateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
@@ -20,27 +20,27 @@ public class PositionCommandService {
         this.positionRepository = positionRepository;
     }
 
-    public PositionResponse create(PositionCreateRequest req) {
+    public PositionResponse create(PositionCreateCommand cmd) {
         Position p = new Position();
-        p.setName(req.getName());
-        p.setCode(req.getCode());
-        p.setType(req.getType());
-        p.setDescription(req.getDescription());
-        p.setSort(req.getSort());
-        p.setEnabled(req.getEnabled() != null ? req.getEnabled() : true);
+        p.setName(cmd.getName());
+        p.setCode(cmd.getCode());
+        p.setType(cmd.getType());
+        p.setDescription(cmd.getDescription());
+        p.setSort(cmd.getSort());
+        p.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
         Position saved = positionRepository.save(p);
         return toResponse(saved);
     }
 
-    public Optional<PositionResponse> update(String id, PositionUpdateRequest req) {
+    public Optional<PositionResponse> update(String id, PositionUpdateCommand cmd) {
         return positionRepository.findById(id).map(p -> {
-            p.setName(req.getName());
-            p.setCode(req.getCode());
-            p.setType(req.getType());
-            p.setDescription(req.getDescription());
-            p.setSort(req.getSort());
-            if (req.getEnabled() != null) {
-                p.setEnabled(req.getEnabled());
+            if (cmd.getName() != null) p.setName(cmd.getName());
+            if (cmd.getCode() != null) p.setCode(cmd.getCode());
+            if (cmd.getType() != null) p.setType(cmd.getType());
+            if (cmd.getDescription() != null) p.setDescription(cmd.getDescription());
+            if (cmd.getSort() != null) p.setSort(cmd.getSort());
+            if (cmd.getEnabled() != null) {
+                p.setEnabled(cmd.getEnabled());
             }
             Position saved = positionRepository.save(p);
             return toResponse(saved);
