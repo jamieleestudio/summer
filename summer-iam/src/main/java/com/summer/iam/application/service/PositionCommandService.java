@@ -6,10 +6,12 @@ import com.summer.iam.interfaces.rest.dto.position.PositionCreateRequest;
 import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
 import com.summer.iam.interfaces.rest.dto.position.PositionUpdateRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PositionCommandService {
     private final PositionRepository positionRepository;
     public PositionCommandService(PositionRepository positionRepository) {

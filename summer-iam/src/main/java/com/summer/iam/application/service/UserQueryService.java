@@ -6,10 +6,12 @@ import com.summer.iam.interfaces.rest.dto.user.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class UserQueryService {
     private final UserRepository userRepository;
 

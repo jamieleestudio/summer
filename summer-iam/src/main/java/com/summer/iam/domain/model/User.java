@@ -66,15 +66,6 @@ public class User  {
     )
     private List<Role> roles;
 
-    /**
-     * 验证密码
-     * @param password 待验证的密码
-     * @return 是否匹配
-     */
-    public boolean validatePassword(String password) {
-        Objects.requireNonNull(password, "密码不能为空");
-        return this.password.equals(password);
-    }
 
     /**
      * 获取用户全名
@@ -89,6 +80,6 @@ public class User  {
      * @return 是否可用
      */
     public boolean isAvailable() {
-        return this.enable != null && this.enable && this.deleted == null || !this.deleted;
+        return (this.enable != null && this.enable) && (this.deleted == null || !this.deleted);
     }
 }

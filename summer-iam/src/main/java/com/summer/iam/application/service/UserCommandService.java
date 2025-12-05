@@ -12,12 +12,14 @@ import com.summer.iam.interfaces.rest.dto.user.UserResponse;
 import com.summer.iam.interfaces.rest.dto.user.UserUpdateRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserCommandService {
 
     private final UserRepository userRepository;
@@ -39,6 +41,9 @@ public class UserCommandService {
     }
 
     public UserResponse create(UserCreateRequest req) {
+        if (userRepository.findByAccount(req.getAccount()).isPresent()) {
+            throw new IllegalArgumentException("账号已存在: " + req.getAccount());
+        }
         User user = new User();
         user.setFirstName(req.getFirstName());
         user.setLastName(req.getLastName());
