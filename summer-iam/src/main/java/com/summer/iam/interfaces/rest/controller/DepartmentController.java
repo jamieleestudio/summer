@@ -1,7 +1,6 @@
 package com.summer.iam.interfaces.rest.controller;
 
 import com.summer.iam.application.service.DepartmentCommandService;
-import com.summer.iam.application.service.DepartmentQueryService;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentCreateRequest;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentResponse;
 import com.summer.iam.interfaces.rest.dto.department.DepartmentUpdateRequest;
@@ -17,25 +16,22 @@ import java.util.Optional;
 @Tag(name = "Departments")
 public class DepartmentController {
 
-    private final DepartmentQueryService departmentQueryService;
     private final DepartmentCommandService departmentCommandService;
 
-    public DepartmentController(DepartmentQueryService departmentQueryService,
-                                DepartmentCommandService departmentCommandService) {
-        this.departmentQueryService = departmentQueryService;
+    public DepartmentController(DepartmentCommandService departmentCommandService) {
         this.departmentCommandService = departmentCommandService;
     }
 
     @GetMapping
     @Operation(summary = "List departments")
     public List<DepartmentResponse> list() {
-        return departmentQueryService.findAll();
+        return departmentCommandService.findAll();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get department details")
     public Optional<DepartmentResponse> get(@PathVariable("id") String id) {
-        return departmentQueryService.findById(id);
+        return departmentCommandService.findById(id);
     }
 
     @PostMapping

@@ -7,6 +7,8 @@ import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
 import com.summer.iam.interfaces.rest.dto.position.PositionUpdateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -55,6 +57,16 @@ public class PositionCommandService {
             Position saved = positionRepository.save(p);
             return toResponse(saved);
         });
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PositionResponse> findAll(Pageable pageable) {
+        return positionRepository.findAll(pageable).map(this::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<PositionResponse> findById(String id) {
+        return positionRepository.findById(id).map(this::toResponse);
     }
 
     private PositionResponse toResponse(Position p) {

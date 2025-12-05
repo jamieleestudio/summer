@@ -13,6 +13,8 @@ import com.summer.iam.interfaces.rest.dto.user.UserUpdateRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 import java.util.ArrayList;
@@ -113,6 +115,16 @@ public class UserCommandService {
 
     public void delete(String id) {
         userRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UserResponse> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable).map(this::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<UserResponse> findById(String id) {
+        return userRepository.findById(id).map(this::toResponse);
     }
 
     private UserResponse toResponse(User u) {

@@ -7,8 +7,12 @@ import com.summer.iam.domain.repository.RoleRepository;
 import com.summer.iam.interfaces.rest.dto.role.RoleCreateRequest;
 import com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse;
 import com.summer.iam.interfaces.rest.dto.role.RoleUpdateRequest;
+import com.summer.iam.interfaces.rest.dto.role.RoleResponse;
+import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,8 +118,6 @@ public class RoleCommandService {
         resp.setPermissionScope(r.getPermissionScope());
         resp.setSort(r.getSort());
         resp.setEnabled(r.getEnabled());
-        
-        // 设置角色的权限ID列表
         if (r.getPermissions() != null) {
             List<String> permissionIds = r.getPermissions().stream()
                     .map(Permission::getId)
@@ -123,5 +125,47 @@ public class RoleCommandService {
             resp.setPermissions(permissionIds);
         }
         return resp;
+    }
+    
+    private RoleResponse toResponse(Role r) {
+        RoleResponse resp = new RoleResponse();
+        resp.setId(r.getId());
+        resp.setName(r.getName());
+        resp.setDescription(r.getDescription());
+        resp.setPermissionScope(r.getPermissionScope());
+        resp.setSort(r.getSort());
+        resp.setEnabled(r.getEnabled());
+        return resp;
+    }
+
+    private PermissionResponse toPermissionResponse(Permission p) {
+        PermissionResponse r = new PermissionResponse();
+        r.setId(p.getId());
+        r.setCode(p.getCode());
+        r.setType(p.getType().name().toLowerCase());
+        r.setName(p.getName());
+        r.setDescription(p.getDescription());
+        r.setPid(p.getPid());
+        return r;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<RoleResponse> findAll(Pageable pageable) {
+        return roleRepository.findAll(pageable).map(this::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<RoleDetailResponse> findById(String id) {
+        return roleRepository.findById(id).map(this::toDetailResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PermissionResponse> listPermissions(String roleId) {
+        return roleRepository.findById(roleId)
+                .map(Role::getPermissions)
+                .orElse(List.of())
+                .stream()
+                .map(this::toPermissionResponse)
+                .toList();
     }
 }

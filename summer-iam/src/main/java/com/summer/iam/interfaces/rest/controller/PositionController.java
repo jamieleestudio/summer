@@ -1,6 +1,5 @@
 package com.summer.iam.interfaces.rest.controller;
 
-import com.summer.iam.application.service.PositionQueryService;
 import com.summer.iam.application.service.PositionCommandService;
 import com.summer.iam.interfaces.rest.dto.position.PositionCreateRequest;
 import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
@@ -19,25 +18,22 @@ import java.util.Optional;
 @Tag(name = "Positions")
 public class PositionController {
 
-    private final PositionQueryService positionQueryService;
     private final PositionCommandService positionCommandService;
 
-    public PositionController(PositionQueryService positionQueryService,
-                              PositionCommandService positionCommandService) {
-        this.positionQueryService = positionQueryService;
+    public PositionController(PositionCommandService positionCommandService) {
         this.positionCommandService = positionCommandService;
     }
 
     @GetMapping
     @Operation(summary = "List positions (paginated)")
     public Page<PositionResponse> list(Pageable pageable) {
-        return positionQueryService.findAll(pageable);
+        return positionCommandService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get position details")
     public Optional<PositionResponse> get(@PathVariable("id") String id) {
-        return positionQueryService.findById(id);
+        return positionCommandService.findById(id);
     }
 
     @PostMapping

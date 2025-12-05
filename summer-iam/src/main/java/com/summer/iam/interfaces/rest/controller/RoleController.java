@@ -1,6 +1,5 @@
 package com.summer.iam.interfaces.rest.controller;
 
-import com.summer.iam.application.service.RoleQueryService;
 import com.summer.iam.application.service.RoleCommandService;
 import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
 import com.summer.iam.interfaces.rest.dto.role.RoleCreateRequest;
@@ -22,31 +21,29 @@ import java.util.List;
 @Tag(name = "Roles")
 public class RoleController {
 
-    private final RoleQueryService roleQueryService;
     private final RoleCommandService roleCommandService;
 
-    public RoleController(RoleQueryService roleQueryService, RoleCommandService roleCommandService) {
-        this.roleQueryService = roleQueryService;
+    public RoleController(RoleCommandService roleCommandService) {
         this.roleCommandService = roleCommandService;
     }
 
     @GetMapping
     @Operation(summary = "List roles (paginated)")
     public Page<RoleResponse> list(Pageable pageable) {
-        return roleQueryService.findAll(pageable);
+        return roleCommandService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get role detail with permissions")
     public RoleDetailResponse getById(@PathVariable("id") String id) {
-        return roleQueryService.findById(id)
+        return roleCommandService.findById(id)
                 .orElse(null);
     }
 
     @GetMapping("/{id}/permissions")
     @Operation(summary = "List permissions of role")
     public List<PermissionResponse> listPermissions(@PathVariable("id") String id) {
-        return roleQueryService.listPermissions(id);
+        return roleCommandService.listPermissions(id);
     }
 
     @PostMapping

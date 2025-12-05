@@ -1,7 +1,6 @@
 package com.summer.iam.interfaces.rest.controller;
 
 import com.summer.iam.application.service.UserCommandService;
-import com.summer.iam.application.service.UserQueryService;
 import com.summer.iam.interfaces.rest.dto.user.UserCreateRequest;
 import com.summer.iam.interfaces.rest.dto.user.UserResponse;
 import com.summer.iam.interfaces.rest.dto.user.UserUpdateRequest;
@@ -18,25 +17,22 @@ import java.util.Optional;
 @Tag(name = "Users")
 public class UserController {
 
-    private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
 
-    public UserController(UserQueryService userQueryService,
-                          UserCommandService userCommandService) {
-        this.userQueryService = userQueryService;
+    public UserController(UserCommandService userCommandService) {
         this.userCommandService = userCommandService;
     }
 
     @GetMapping
     @Operation(summary = "List users (paginated)")
     public Page<UserResponse> list(Pageable pageable) {
-        return userQueryService.findAll(pageable);
+        return userCommandService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get user details")
     public Optional<UserResponse> get(@PathVariable("id") String id) {
-        return userQueryService.findById(id);
+        return userCommandService.findById(id);
     }
 
     @PostMapping

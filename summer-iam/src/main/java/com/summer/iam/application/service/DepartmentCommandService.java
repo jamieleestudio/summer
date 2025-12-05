@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class DepartmentCommandService {
@@ -48,6 +49,16 @@ public class DepartmentCommandService {
     @Transactional
     public void delete(String id) {
         departmentRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DepartmentResponse> findAll() {
+        return departmentRepository.findAll().stream().map(this::toResponse).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<DepartmentResponse> findById(String id) {
+        return departmentRepository.findById(id).map(this::toResponse);
     }
 
     private DepartmentResponse toResponse(Department d) {
