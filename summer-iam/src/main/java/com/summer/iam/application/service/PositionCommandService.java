@@ -2,9 +2,10 @@ package com.summer.iam.application.service;
 
 import com.summer.iam.application.command.PositionCreateCommand;
 import com.summer.iam.application.command.PositionUpdateCommand;
+import com.summer.iam.application.model.PositionInfo;
+import com.summer.iam.application.model.PositionSummary;
 import com.summer.iam.domain.model.Position;
 import com.summer.iam.domain.repository.PositionRepository;
-import com.summer.iam.interfaces.rest.dto.position.PositionResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ public class PositionCommandService {
         this.positionRepository = positionRepository;
     }
 
-    public PositionResponse create(PositionCreateCommand cmd) {
+    public PositionInfo create(PositionCreateCommand cmd) {
         Position p = new Position();
         p.setName(cmd.getName());
         p.setCode(cmd.getCode());
@@ -29,10 +30,10 @@ public class PositionCommandService {
         p.setSort(cmd.getSort());
         p.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
         Position saved = positionRepository.save(p);
-        return toResponse(saved);
+        return toInfo(saved);
     }
 
-    public Optional<PositionResponse> update(String id, PositionUpdateCommand cmd) {
+    public Optional<PositionInfo> update(String id, PositionUpdateCommand cmd) {
         return positionRepository.findById(id).map(p -> {
             if (cmd.getName() != null) p.setName(cmd.getName());
             if (cmd.getCode() != null) p.setCode(cmd.getCode());
@@ -43,7 +44,7 @@ public class PositionCommandService {
                 p.setEnabled(cmd.getEnabled());
             }
             Position saved = positionRepository.save(p);
-            return toResponse(saved);
+            return toInfo(saved);
         });
     }
 
@@ -51,33 +52,44 @@ public class PositionCommandService {
         positionRepository.deleteById(id);
     }
 
-    public Optional<PositionResponse> setEnabled(String id, Boolean enabled) {
+    public Optional<PositionInfo> setEnabled(String id, Boolean enabled) {
         return positionRepository.findById(id).map(p -> {
             p.setEnabled(enabled);
             Position saved = positionRepository.save(p);
-            return toResponse(saved);
+            return toInfo(saved);
         });
     }
 
     @Transactional(readOnly = true)
-    public Page<PositionResponse> findAll(Pageable pageable) {
-        return positionRepository.findAll(pageable).map(this::toResponse);
+    public Page<PositionSummary> findAll(Pageable pageable) {
+        return positionRepository.findAll(pageable).map(this::toSummary);
     }
 
     @Transactional(readOnly = true)
-    public Optional<PositionResponse> findById(String id) {
-        return positionRepository.findById(id).map(this::toResponse);
+    public Optional<PositionInfo> findById(String id) {
+        return positionRepository.findById(id).map(this::toInfo);
     }
 
-    private PositionResponse toResponse(Position p) {
-        PositionResponse r = new PositionResponse();
-        r.setId(p.getId());
-        r.setName(p.getName());
-        r.setCode(p.getCode());
-        r.setType(p.getType());
-        r.setDescription(p.getDescription());
-        r.setSort(p.getSort());
-        r.setEnabled(p.getEnabled());
-        return r;
+    private PositionInfo toInfo(Position p) {
+        PositionInfo info = new PositionInfo();
+        info.setId(p.getId());
+        info.setName(p.getName());
+        info.setCode(p.getCode());
+        info.setType(p.getType());
+        info.setDescription(p.getDescription());
+        info.setSort(p.getSort());
+        info.setEnabled(p.getEnabled());
+        return info;
+    }
+
+    private PositionSummary toSummary(Position p) {
+        PositionSummary s = new PositionSummary();
+        s.setId(p.getId());
+        s.setName(p.getName());
+        s.setCode(p.getCode());
+        s.setType(p.getType());
+        s.setSort(p.getSort());
+        s.setEnabled(p.getEnabled());
+        return s;
     }
 }
