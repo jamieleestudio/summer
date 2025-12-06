@@ -23,9 +23,8 @@ public class User  {
     @UuidGenerator
     private String id;
 
-    private String firstName;
-
-    private String lastName;
+    @Embedded
+    private Username username;
 
     private String account;
 
@@ -64,15 +63,6 @@ public class User  {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
-
-
-    /**
-     * 获取用户全名
-     * @return 全名
-     */
-    public String getFullName() {
-        return lastName + firstName;
-    }
 
     /**
      * 检查用户是否可用

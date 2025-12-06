@@ -61,8 +61,11 @@ public class UserResponse {
     public static UserResponse from(User u) {
         UserResponse r = new UserResponse();
         r.setId(u.getId());
-        r.setFirstName(u.getFirstName());
-        r.setLastName(u.getLastName());
+        var username = u.getUsername();
+        if(username != null){
+            r.setFirstName(username.getFirstName());
+            r.setLastName(username.getLastName());
+        }
         r.setAccount(u.getAccount());
         r.setEmail(u.getEmail());
         r.setPhone(u.getPhone());

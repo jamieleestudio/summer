@@ -34,4 +34,8 @@ public class Position  {
 
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = true;
+
+    public boolean isAssignable() {
+        return this.enabled != null && this.enabled;
+    }
 }

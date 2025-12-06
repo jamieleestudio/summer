@@ -6,8 +6,7 @@ public final class UserFactory {
     private UserFactory() {}
 
     public static User create(
-            String firstName,
-            String lastName,
+            Username username,
             String account,
             String encodedPassword,
             String email,
@@ -21,8 +20,7 @@ public final class UserFactory {
             List<Role> roles
     ) {
         User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setUsername(username);
         user.setAccount(account);
         user.setPassword(encodedPassword);
         user.setEmail(email);

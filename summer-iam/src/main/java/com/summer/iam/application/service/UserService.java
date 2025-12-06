@@ -7,6 +7,7 @@ import com.summer.iam.domain.model.Position;
 import com.summer.iam.domain.model.Role;
 import com.summer.iam.domain.model.User;
 import com.summer.iam.domain.model.UserFactory;
+import com.summer.iam.domain.model.Username;
 import com.summer.iam.domain.repository.DepartmentRepository;
 import com.summer.iam.domain.repository.PositionRepository;
 import com.summer.iam.domain.repository.RoleRepository;
@@ -64,9 +65,10 @@ public class UserService {
                 roleRepository.findById(rid).ifPresent(roles::add);
             }
         }
+        Username username = new Username(cmd.getFirstName(), cmd.getLastName());
+
         User user = UserFactory.create(
-                cmd.getFirstName(),
-                cmd.getLastName(),
+                username,
                 cmd.getAccount(),
                 passwordEncoder.encode(cmd.getPassword()),
                 cmd.getEmail(),
@@ -85,16 +87,15 @@ public class UserService {
 
     public Optional<UserResponse> update(String id, UserUpdateCommand cmd) {
         return userRepository.findById(id).map(user -> {
-            if (cmd.getFirstName() != null) user.setFirstName(cmd.getFirstName());
-            if (cmd.getLastName() != null) user.setLastName(cmd.getLastName());
-            if (cmd.getAccount() != null) user.setAccount(cmd.getAccount());
+            user.setUsername(new Username(cmd.getFirstName(), cmd.getLastName()));
+            user.setAccount(cmd.getAccount());
             if (cmd.getPassword() != null) user.setPassword(passwordEncoder.encode(cmd.getPassword()));
-            if (cmd.getEmail() != null) user.setEmail(cmd.getEmail());
-            if (cmd.getPhone() != null) user.setPhone(cmd.getPhone());
-            if (cmd.getGender() != null) user.setGender(cmd.getGender());
-            if (cmd.getAvatar() != null) user.setAvatar(cmd.getAvatar());
-            if (cmd.getDescription() != null) user.setDescription(cmd.getDescription());
-            if (cmd.getEnable() != null) user.setEnable(cmd.getEnable());
+            user.setEmail(cmd.getEmail());
+            user.setPhone(cmd.getPhone());
+            user.setGender(cmd.getGender());
+            user.setAvatar(cmd.getAvatar());
+            user.setDescription(cmd.getDescription());
+            user.setEnable(cmd.getEnable());
             if (cmd.getDepartmentId() != null) {
                 Department dept = departmentRepository.findById(cmd.getDepartmentId()).orElse(null);
                 user.setDepartment(dept);

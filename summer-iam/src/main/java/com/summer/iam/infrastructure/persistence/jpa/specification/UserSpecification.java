@@ -37,11 +37,10 @@ public class UserSpecification {
             if (name == null || name.isEmpty()) {
                 return null;
             }
-            // 使用类型安全的元模型引用
             String pattern = "%" + name + "%";
             return criteriaBuilder.or(
-                criteriaBuilder.like(root.get(User_.firstName), pattern),
-                criteriaBuilder.like(root.get(User_.lastName), pattern)
+                criteriaBuilder.like(root.get("username").get("firstName"), pattern),
+                criteriaBuilder.like(root.get("username").get("lastName"), pattern)
             );
         };
     }
