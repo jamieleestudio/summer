@@ -66,10 +66,9 @@ public class UserSpecification {
      */
     public static Specification<User> availableUsers() {
         return (root, query, criteriaBuilder) -> {
-            // 使用类型安全的元模型引用
             return criteriaBuilder.and(
-                criteriaBuilder.isTrue(root.get(User_.enable)),
-                criteriaBuilder.isFalse(root.get(User_.deleted))
+                criteriaBuilder.isTrue(root.get("status").get("enable")),
+                criteriaBuilder.isFalse(root.get("status").get("deleted"))
             );
         };
     }

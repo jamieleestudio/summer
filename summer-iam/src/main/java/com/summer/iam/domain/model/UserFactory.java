@@ -31,7 +31,7 @@ public final class UserFactory {
             Integer gender,
             String avatar,
             String description,
-            Boolean enable,
+            UserStatus status,
             String departmentId,
             List<String> positionIds,
             List<String> roleIds
@@ -45,7 +45,7 @@ public final class UserFactory {
         user.setGender(gender);
         user.setAvatar(avatar);
         user.setDescription(description);
-        user.setEnable(enable != null ? enable : Boolean.TRUE);
+        user.setStatus(status);
         populateRelations(user, departmentId, positionIds, roleIds);
         return user;
     }

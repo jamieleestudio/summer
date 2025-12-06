@@ -40,9 +40,8 @@ public class User  {
 
     private String description;
 
-    private Boolean deleted;
-
-    private Boolean enable;
+    @Embedded
+    private UserStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id")
@@ -69,6 +68,7 @@ public class User  {
      * @return 是否可用
      */
     public boolean isAvailable() {
-        return (this.enable != null && this.enable) && (this.deleted == null || !this.deleted);
+        return this.status != null && this.status.isAvailable();
     }
+
 }

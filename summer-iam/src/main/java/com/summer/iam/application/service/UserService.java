@@ -12,6 +12,7 @@ import com.summer.iam.application.command.UserCreateCommand;
 import com.summer.iam.application.command.UserUpdateCommand;
 import com.summer.iam.domain.model.User;
 import com.summer.iam.domain.model.UserFactory;
+import com.summer.iam.domain.model.UserStatus;
 import com.summer.iam.domain.model.Username;
 import com.summer.iam.domain.repository.UserRepository;
 import com.summer.iam.interfaces.rest.dto.user.UserResponse;
@@ -37,7 +38,7 @@ public class UserService {
             throw new IllegalArgumentException("账号已存在: " + cmd.getAccount());
         }
         Username username = new Username(cmd.getFirstName(), cmd.getLastName());
-
+        UserStatus status = new UserStatus(cmd.getEnable(), Boolean.FALSE);
         User user = userFactory.create(
                 username,
                 cmd.getAccount(),
@@ -47,7 +48,7 @@ public class UserService {
                 cmd.getGender(),
                 cmd.getAvatar(),
                 cmd.getDescription(),
-                cmd.getEnable(),
+                status,
                 cmd.getDepartmentId(),
                 cmd.getPositionIds(),
                 cmd.getRoleIds()
@@ -66,7 +67,7 @@ public class UserService {
             user.setGender(cmd.getGender());
             user.setAvatar(cmd.getAvatar());
             user.setDescription(cmd.getDescription());
-            user.setEnable(cmd.getEnable());
+            user.setStatus(new UserStatus(cmd.getEnable(), Boolean.FALSE));
             userFactory.populateRelations(
                     user,
                     cmd.getDepartmentId(),
