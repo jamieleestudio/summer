@@ -15,6 +15,8 @@ public interface PositionRepository {
 
     Optional<Position> findById(String id);
 
+    List<Position> findByIds(List<String> ids);
+
     Position save(Position position);
 
     void deleteById(String id);
