@@ -20,22 +20,12 @@ public class PermissionQueryService {
     }
 
     public List<PermissionResponse> findAll() {
-        return permissionRepository.findAll().stream().map(this::toResponse).toList();
+        return permissionRepository.findAll().stream().map(com.summer.iam.interfaces.rest.dto.permission.PermissionResponse::from).toList();
     }
 
     public Page<PermissionResponse> listMenus(Pageable pageable) {
-        return permissionRepository.findByType(Permission.Type.MENU, pageable).map(this::toResponse);
+        return permissionRepository.findByType(Permission.Type.MENU, pageable).map(com.summer.iam.interfaces.rest.dto.permission.PermissionResponse::from);
     }
 
-    private PermissionResponse toResponse(Permission p) {
-        PermissionResponse r = new PermissionResponse();
-        r.setId(p.getId());
-        r.setCode(p.getCode());
-        r.setType(p.getType() != null ? p.getType().name().toLowerCase() : null);
-        r.setName(p.getName());
-        r.setDescription(p.getDescription());
-        r.setPid(p.getPid());
-        r.setIcon(p.getIcon());
-        return r;
-    }
+    
 }

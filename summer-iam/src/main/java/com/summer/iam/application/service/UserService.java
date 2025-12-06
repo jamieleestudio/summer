@@ -4,7 +4,9 @@ import com.summer.iam.application.command.UserCreateCommand;
 import com.summer.iam.application.command.UserUpdateCommand;
 import com.summer.iam.domain.model.Department;
 import com.summer.iam.domain.model.Position;
+import com.summer.iam.domain.model.Role;
 import com.summer.iam.domain.model.User;
+import com.summer.iam.domain.model.UserFactory;
 import com.summer.iam.domain.repository.DepartmentRepository;
 import com.summer.iam.domain.repository.PositionRepository;
 import com.summer.iam.domain.repository.RoleRepository;
@@ -22,7 +24,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserCommandService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
@@ -30,7 +32,7 @@ public class UserCommandService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-    public UserCommandService(UserRepository userRepository,
+    public UserService(UserRepository userRepository,
                               DepartmentRepository departmentRepository,
                               PositionRepository positionRepository,
                               RoleRepository roleRepository,
@@ -46,36 +48,39 @@ public class UserCommandService {
         if (userRepository.findByAccount(cmd.getAccount()).isPresent()) {
             throw new IllegalArgumentException("账号已存在: " + cmd.getAccount());
         }
-        User user = new User();
-        user.setFirstName(cmd.getFirstName());
-        user.setLastName(cmd.getLastName());
-        user.setAccount(cmd.getAccount());
-        user.setPassword(passwordEncoder.encode(cmd.getPassword()));
-        user.setEmail(cmd.getEmail());
-        user.setPhone(cmd.getPhone());
-        user.setGender(cmd.getGender());
-        user.setAvatar(cmd.getAvatar());
-        user.setDescription(cmd.getDescription());
-        user.setEnable(cmd.getEnable());
+        Department dept = null;
         if (cmd.getDepartmentId() != null) {
-            departmentRepository.findById(cmd.getDepartmentId()).ifPresent(user::setDepartment);
+            dept = departmentRepository.findById(cmd.getDepartmentId()).orElse(null);
         }
+        List<Position> positions = new ArrayList<>();
         if (cmd.getPositionIds() != null) {
-            List<com.summer.iam.domain.model.Position> positions = new ArrayList<>();
             for (String pid : cmd.getPositionIds()) {
                 positionRepository.findById(pid).ifPresent(positions::add);
             }
-            user.setPositions(positions);
         }
+        List<Role> roles = new ArrayList<>();
         if (cmd.getRoleIds() != null) {
-            List<com.summer.iam.domain.model.Role> roles = new ArrayList<>();
             for (String rid : cmd.getRoleIds()) {
                 roleRepository.findById(rid).ifPresent(roles::add);
             }
-            user.setRoles(roles);
         }
+        User user = UserFactory.create(
+                cmd.getFirstName(),
+                cmd.getLastName(),
+                cmd.getAccount(),
+                passwordEncoder.encode(cmd.getPassword()),
+                cmd.getEmail(),
+                cmd.getPhone(),
+                cmd.getGender(),
+                cmd.getAvatar(),
+                cmd.getDescription(),
+                cmd.getEnable(),
+                dept,
+                positions,
+                roles
+        );
         User saved = userRepository.save(user);
-        return toResponse(saved);
+        return UserResponse.from(saved);
     }
 
     public Optional<UserResponse> update(String id, UserUpdateCommand cmd) {
@@ -102,67 +107,24 @@ public class UserCommandService {
                 user.setPositions(positions);
             }
             if (cmd.getRoleIds() != null) {
-                List<com.summer.iam.domain.model.Role> roles = new ArrayList<>();
-                for (String rid : cmd.getRoleIds()) {
-                    roleRepository.findById(rid).ifPresent(roles::add);
-                }
-                user.setRoles(roles);
+            List<Role> roles = new ArrayList<>();
+            for (String rid : cmd.getRoleIds()) {
+                roleRepository.findById(rid).ifPresent(roles::add);
             }
+            user.setRoles(roles);
+        }
             User saved = userRepository.save(user);
-            return toResponse(saved);
+            return UserResponse.from(saved);
         });
     }
 
-    public void delete(String id) {
-        userRepository.deleteById(id);
-    }
+    public void delete(String id) { userRepository.deleteById(id); }
 
     @Transactional(readOnly = true)
-    public Page<UserResponse> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable).map(this::toResponse);
-    }
+    public Page<UserResponse> findAll(Pageable pageable) { return userRepository.findAll(pageable).map(com.summer.iam.interfaces.rest.dto.user.UserResponse::from); }
 
     @Transactional(readOnly = true)
-    public Optional<UserResponse> findById(String id) {
-        return userRepository.findById(id).map(this::toResponse);
-    }
+    public Optional<UserResponse> findById(String id) { return userRepository.findById(id).map(com.summer.iam.interfaces.rest.dto.user.UserResponse::from); }
 
-    private UserResponse toResponse(User u) {
-        UserResponse r = new UserResponse();
-        r.setId(u.getId());
-        r.setFirstName(u.getFirstName());
-        r.setLastName(u.getLastName());
-        r.setAccount(u.getAccount());
-        r.setEmail(u.getEmail());
-        r.setPhone(u.getPhone());
-        r.setGender(u.getGender());
-        r.setAvatar(u.getAvatar());
-        r.setDescription(u.getDescription());
-        r.setEnable(u.getEnable());
-        if (u.getDepartment() != null) {
-            r.setDepartmentId(u.getDepartment().getId());
-            r.setDepartmentName(u.getDepartment().getName());
-        }
-        if (u.getPositions() != null) {
-            List<String> pids = new ArrayList<>();
-            List<String> pnames = new ArrayList<>();
-            for (Position p : u.getPositions()) {
-                pids.add(p.getId());
-                pnames.add(p.getName());
-            }
-            r.setPositionIds(pids);
-            r.setPositionNames(pnames);
-        }
-        if (u.getRoles() != null) {
-            List<String> rids = new ArrayList<>();
-            List<String> rnames = new ArrayList<>();
-            for (com.summer.iam.domain.model.Role role : u.getRoles()) {
-                rids.add(role.getId());
-                rnames.add(role.getName());
-            }
-            r.setRoleIds(rids);
-            r.setRoleNames(rnames);
-        }
-        return r;
-    }
+    
 }

@@ -1,5 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.role;
 
+import com.summer.iam.domain.model.Permission;
+import com.summer.iam.domain.model.Role;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,4 +28,19 @@ public class RoleDetailResponse {
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
     public List<String> getPermissions() { return permissions; }
     public void setPermissions(List<String> permissions) { this.permissions = permissions; }
+
+    public static RoleDetailResponse from(Role r) {
+        RoleDetailResponse resp = new RoleDetailResponse();
+        resp.setId(r.getId());
+        resp.setName(r.getName());
+        resp.setDescription(r.getDescription());
+        resp.setPermissionScope(r.getPermissionScope());
+        resp.setSort(r.getSort());
+        resp.setEnabled(r.getEnabled());
+        if (r.getPermissions() != null) {
+            List<String> permissionIds = r.getPermissions().stream().map(Permission::getId).toList();
+            resp.setPermissions(permissionIds);
+        }
+        return resp;
+    }
 }

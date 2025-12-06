@@ -1,6 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.permission;
 
 import com.summer.framework.orm.domain.Treeable;
+import com.summer.iam.domain.model.Permission;
 
 public class PermissionResponse implements Treeable<String> {
     private String id;
@@ -25,4 +26,16 @@ public class PermissionResponse implements Treeable<String> {
     public void setPid(String pid) { this.pid = pid; }
     public String getIcon() { return icon; }
     public void setIcon(String icon) { this.icon = icon; }
+
+    public static PermissionResponse from(Permission p) {
+        PermissionResponse r = new PermissionResponse();
+        r.setId(p.getId());
+        r.setCode(p.getCode());
+        r.setType(p.getType().name().toLowerCase());
+        r.setName(p.getName());
+        r.setDescription(p.getDescription());
+        r.setPid(p.getPid());
+        r.setIcon(p.getIcon());
+        return r;
+    }
 }

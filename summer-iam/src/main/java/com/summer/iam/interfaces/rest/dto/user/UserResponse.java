@@ -1,5 +1,12 @@
 package com.summer.iam.interfaces.rest.dto.user;
 
+import com.summer.iam.domain.model.Department;
+import com.summer.iam.domain.model.Position;
+import com.summer.iam.domain.model.Role;
+import com.summer.iam.domain.model.User;
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserResponse {
     private String id;
     private String firstName;
@@ -50,4 +57,40 @@ public class UserResponse {
     public void setRoleIds(java.util.List<String> roleIds) { this.roleIds = roleIds; }
     public java.util.List<String> getRoleNames() { return roleNames; }
     public void setRoleNames(java.util.List<String> roleNames) { this.roleNames = roleNames; }
+
+    public static UserResponse from(User u) {
+        UserResponse r = new UserResponse();
+        r.setId(u.getId());
+        r.setFirstName(u.getFirstName());
+        r.setLastName(u.getLastName());
+        r.setAccount(u.getAccount());
+        r.setEmail(u.getEmail());
+        r.setPhone(u.getPhone());
+        r.setGender(u.getGender());
+        r.setAvatar(u.getAvatar());
+        r.setDescription(u.getDescription());
+        r.setEnable(u.getEnable());
+        Department d = u.getDepartment();
+        if (d != null) {
+            r.setDepartmentId(d.getId());
+            r.setDepartmentName(d.getName());
+        }
+        List<Position> pos = u.getPositions();
+        if (pos != null) {
+            List<String> pids = new ArrayList<>();
+            List<String> pnames = new ArrayList<>();
+            for (Position p : pos) { pids.add(p.getId()); pnames.add(p.getName()); }
+            r.setPositionIds(pids);
+            r.setPositionNames(pnames);
+        }
+        List<Role> roles = u.getRoles();
+        if (roles != null) {
+            List<String> rids = new ArrayList<>();
+            List<String> rnames = new ArrayList<>();
+            for (Role role : roles) { rids.add(role.getId()); rnames.add(role.getName()); }
+            r.setRoleIds(rids);
+            r.setRoleNames(rnames);
+        }
+        return r;
+    }
 }

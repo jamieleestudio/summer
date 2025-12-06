@@ -1,5 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.role;
 
+import com.summer.iam.domain.model.Role;
+
 public class RoleResponse {
     private String id;
     private String name;
@@ -20,4 +22,15 @@ public class RoleResponse {
     public void setSort(Integer sort) { this.sort = sort; }
     public Boolean getEnabled() { return enabled; }
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
+
+    public static RoleResponse from(Role r) {
+        RoleResponse resp = new RoleResponse();
+        resp.setId(r.getId());
+        resp.setName(r.getName());
+        resp.setDescription(r.getDescription());
+        resp.setPermissionScope(r.getPermissionScope());
+        resp.setSort(r.getSort());
+        resp.setEnabled(r.getEnabled());
+        return resp;
+    }
 }

@@ -1,5 +1,7 @@
 package com.summer.iam.application.model;
 
+import com.summer.iam.domain.model.Position;
+
 public class PositionInfo {
     private String id;
     private String name;
@@ -23,5 +25,16 @@ public class PositionInfo {
     public void setSort(Integer sort) { this.sort = sort; }
     public Boolean getEnabled() { return enabled; }
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
-}
 
+    public static PositionInfo from(Position p) {
+        PositionInfo info = new PositionInfo();
+        info.setId(p.getId());
+        info.setName(p.getName());
+        info.setCode(p.getCode());
+        info.setType(p.getType());
+        info.setDescription(p.getDescription());
+        info.setSort(p.getSort());
+        info.setEnabled(p.getEnabled());
+        return info;
+    }
+}

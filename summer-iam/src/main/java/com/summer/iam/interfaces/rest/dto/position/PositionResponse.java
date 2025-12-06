@@ -1,5 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.position;
 
+import com.summer.iam.domain.model.Position;
+
 public class PositionResponse {
     private String id;
     private String name;
@@ -23,4 +25,16 @@ public class PositionResponse {
     public void setSort(Integer sort) { this.sort = sort; }
     public Boolean getEnabled() { return enabled; }
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
+
+    public static PositionResponse from(Position p) {
+        PositionResponse r = new PositionResponse();
+        r.setId(p.getId());
+        r.setName(p.getName());
+        r.setCode(p.getCode());
+        r.setType(p.getType());
+        r.setDescription(p.getDescription());
+        r.setSort(p.getSort());
+        r.setEnabled(p.getEnabled());
+        return r;
+    }
 }

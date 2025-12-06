@@ -12,10 +12,10 @@ import java.util.Optional;
 import java.util.List;
 
 @Service
-public class DepartmentCommandService {
+public class DepartmentService {
     private final DepartmentRepository departmentRepository;
 
-    public DepartmentCommandService(DepartmentRepository departmentRepository) {
+    public DepartmentService(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
     }
 
@@ -29,7 +29,7 @@ public class DepartmentCommandService {
         d.setCode(cmd.getCode());
         d.setSort(cmd.getSort());
         Department saved = departmentRepository.save(d);
-        return toResponse(saved);
+        return com.summer.iam.interfaces.rest.dto.department.DepartmentResponse.from(saved);
     }
 
     @Transactional
@@ -42,34 +42,18 @@ public class DepartmentCommandService {
             d.setCode(cmd.getCode());
             d.setSort(cmd.getSort());
             Department saved = departmentRepository.save(d);
-            return toResponse(saved);
+            return com.summer.iam.interfaces.rest.dto.department.DepartmentResponse.from(saved);
         });
     }
 
     @Transactional
-    public void delete(String id) {
-        departmentRepository.deleteById(id);
-    }
+    public void delete(String id) { departmentRepository.deleteById(id); }
 
     @Transactional(readOnly = true)
-    public List<DepartmentResponse> findAll() {
-        return departmentRepository.findAll().stream().map(this::toResponse).toList();
-    }
+    public List<DepartmentResponse> findAll() { return departmentRepository.findAll().stream().map(com.summer.iam.interfaces.rest.dto.department.DepartmentResponse::from).toList(); }
 
     @Transactional(readOnly = true)
-    public Optional<DepartmentResponse> findById(String id) {
-        return departmentRepository.findById(id).map(this::toResponse);
-    }
+    public Optional<DepartmentResponse> findById(String id) { return departmentRepository.findById(id).map(com.summer.iam.interfaces.rest.dto.department.DepartmentResponse::from); }
 
-    private DepartmentResponse toResponse(Department d) {
-        DepartmentResponse r = new DepartmentResponse();
-        r.setId(d.getId());
-        r.setPid(d.getPid());
-        r.setName(d.getName());
-        r.setIcon(d.getIcon());
-        r.setRoot(d.getRoot());
-        r.setCode(d.getCode());
-        r.setSort(d.getSort());
-        return r;
-    }
+    
 }

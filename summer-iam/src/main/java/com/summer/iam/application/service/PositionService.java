@@ -15,9 +15,9 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class PositionCommandService {
+public class PositionService {
     private final PositionRepository positionRepository;
-    public PositionCommandService(PositionRepository positionRepository) {
+    public PositionService(PositionRepository positionRepository) {
         this.positionRepository = positionRepository;
     }
 
@@ -30,7 +30,7 @@ public class PositionCommandService {
         p.setSort(cmd.getSort());
         p.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
         Position saved = positionRepository.save(p);
-        return toInfo(saved);
+        return PositionInfo.from(saved);
     }
 
     public Optional<PositionInfo> update(String id, PositionUpdateCommand cmd) {
@@ -44,7 +44,7 @@ public class PositionCommandService {
                 p.setEnabled(cmd.getEnabled());
             }
             Position saved = positionRepository.save(p);
-            return toInfo(saved);
+            return PositionInfo.from(saved);
         });
     }
 
@@ -56,40 +56,17 @@ public class PositionCommandService {
         return positionRepository.findById(id).map(p -> {
             p.setEnabled(enabled);
             Position saved = positionRepository.save(p);
-            return toInfo(saved);
+            return PositionInfo.from(saved);
         });
     }
 
     @Transactional(readOnly = true)
     public Page<PositionSummary> findAll(Pageable pageable) {
-        return positionRepository.findAll(pageable).map(this::toSummary);
+        return positionRepository.findAll(pageable).map(PositionSummary::from);
     }
 
     @Transactional(readOnly = true)
     public Optional<PositionInfo> findById(String id) {
-        return positionRepository.findById(id).map(this::toInfo);
-    }
-
-    private PositionInfo toInfo(Position p) {
-        PositionInfo info = new PositionInfo();
-        info.setId(p.getId());
-        info.setName(p.getName());
-        info.setCode(p.getCode());
-        info.setType(p.getType());
-        info.setDescription(p.getDescription());
-        info.setSort(p.getSort());
-        info.setEnabled(p.getEnabled());
-        return info;
-    }
-
-    private PositionSummary toSummary(Position p) {
-        PositionSummary s = new PositionSummary();
-        s.setId(p.getId());
-        s.setName(p.getName());
-        s.setCode(p.getCode());
-        s.setType(p.getType());
-        s.setSort(p.getSort());
-        s.setEnabled(p.getEnabled());
-        return s;
+        return positionRepository.findById(id).map(PositionInfo::from);
     }
 }

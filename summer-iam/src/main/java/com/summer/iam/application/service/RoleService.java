@@ -19,145 +19,81 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RoleCommandService {
+public class RoleService {
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
 
-    public RoleCommandService(RoleRepository roleRepository, PermissionRepository permissionRepository) {
+    public RoleService(RoleRepository roleRepository, PermissionRepository permissionRepository) {
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
     }
 
     @Transactional
     public RoleDetailResponse create(RoleCreateCommand cmd) {
-        // 检查角色名称是否已存在
         if (roleRepository.findByName(cmd.getName()).isPresent()) {
             throw new IllegalArgumentException("角色名称已存在: " + cmd.getName());
         }
-
         Role role = new Role();
         role.setName(cmd.getName());
         role.setDescription(cmd.getDescription());
         role.setPermissionScope(cmd.getPermissionScope());
         role.setSort(cmd.getSort());
-        // 如果没有指定enabled，则使用默认值true
         role.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
-
-        // 设置权限关联
         if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
             List<Permission> permissions = permissionRepository.findByIds(cmd.getPermissions());
             role.setPermissions(permissions);
         }
-
         Role saved = roleRepository.save(role);
-        return toDetailResponse(saved);
+        return com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse.from(saved);
     }
 
     @Transactional
     public Optional<RoleDetailResponse> update(String id, RoleUpdateCommand cmd) {
         return roleRepository.findById(id).map(role -> {
-            // 检查角色名称是否已存在（排除当前角色）
             roleRepository.findByName(cmd.getName())
                     .filter(existing -> !existing.getId().equals(id))
-                    .ifPresent(existing -> {
-                        throw new IllegalArgumentException("角色名称已存在: " + cmd.getName());
-                    });
-
+                    .ifPresent(existing -> { throw new IllegalArgumentException("角色名称已存在: " + cmd.getName()); });
             role.setName(cmd.getName());
             role.setDescription(cmd.getDescription());
             role.setPermissionScope(cmd.getPermissionScope());
             role.setSort(cmd.getSort());
-            // 如果请求中提供了enabled字段，则更新
-            if (cmd.getEnabled() != null) {
-                role.setEnabled(cmd.getEnabled());
-            }
-
-            // 更新权限关联
+            if (cmd.getEnabled() != null) { role.setEnabled(cmd.getEnabled()); }
             if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
                 List<Permission> permissions = permissionRepository.findByIds(cmd.getPermissions());
                 role.setPermissions(permissions);
-            }else{
+            } else {
                 role.setPermissions(new ArrayList<>());
             }
-
             Role saved = roleRepository.save(role);
-            return toDetailResponse(saved);
+            return com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse.from(saved);
         });
     }
 
     @Transactional
-    public void delete(String id) {
-        roleRepository.deleteById(id);
-    }
-    
+    public void delete(String id) { roleRepository.deleteById(id); }
+
     @Transactional
     public Optional<RoleDetailResponse> setEnabled(String id, Boolean enabled) {
         return roleRepository.findById(id).map(role -> {
             role.setEnabled(enabled);
             Role saved = roleRepository.save(role);
-            return toDetailResponse(saved);
+            return com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse.from(saved);
         });
     }
-    
-    // 保留原有方法以确保兼容性
-    @Transactional
-    public Optional<RoleDetailResponse> enable(String id) {
-        return setEnabled(id, true);
-    }
-    
-    @Transactional
-    public Optional<RoleDetailResponse> disable(String id) {
-        return setEnabled(id, false);
-    }
 
-    private RoleDetailResponse toDetailResponse(Role r) {
-        RoleDetailResponse resp = new RoleDetailResponse();
-        resp.setId(r.getId());
-        resp.setName(r.getName());
-        resp.setDescription(r.getDescription());
-        resp.setPermissionScope(r.getPermissionScope());
-        resp.setSort(r.getSort());
-        resp.setEnabled(r.getEnabled());
-        if (r.getPermissions() != null) {
-            List<String> permissionIds = r.getPermissions().stream()
-                    .map(Permission::getId)
-                    .toList();
-            resp.setPermissions(permissionIds);
-        }
-        return resp;
-    }
-    
-    private RoleResponse toResponse(Role r) {
-        RoleResponse resp = new RoleResponse();
-        resp.setId(r.getId());
-        resp.setName(r.getName());
-        resp.setDescription(r.getDescription());
-        resp.setPermissionScope(r.getPermissionScope());
-        resp.setSort(r.getSort());
-        resp.setEnabled(r.getEnabled());
-        return resp;
-    }
+    @Transactional
+    public Optional<RoleDetailResponse> enable(String id) { return setEnabled(id, true); }
 
-    private PermissionResponse toPermissionResponse(Permission p) {
-        PermissionResponse r = new PermissionResponse();
-        r.setId(p.getId());
-        r.setCode(p.getCode());
-        r.setType(p.getType().name().toLowerCase());
-        r.setName(p.getName());
-        r.setDescription(p.getDescription());
-        r.setPid(p.getPid());
-        return r;
-    }
+    @Transactional
+    public Optional<RoleDetailResponse> disable(String id) { return setEnabled(id, false); }
+
+    
 
     @Transactional(readOnly = true)
-    public Page<RoleResponse> findAll(Pageable pageable) {
-        return roleRepository.findAll(pageable).map(this::toResponse);
-    }
+    public Page<RoleResponse> findAll(Pageable pageable) { return roleRepository.findAll(pageable).map(com.summer.iam.interfaces.rest.dto.role.RoleResponse::from); }
 
     @Transactional(readOnly = true)
-    public Optional<RoleDetailResponse> findById(String id) {
-        return roleRepository.findById(id).map(this::toDetailResponse);
-    }
+    public Optional<RoleDetailResponse> findById(String id) { return roleRepository.findById(id).map(com.summer.iam.interfaces.rest.dto.role.RoleDetailResponse::from); }
 
     @Transactional(readOnly = true)
     public List<PermissionResponse> listPermissions(String roleId) {
@@ -165,7 +101,7 @@ public class RoleCommandService {
                 .map(Role::getPermissions)
                 .orElse(List.of())
                 .stream()
-                .map(this::toPermissionResponse)
+                .map(com.summer.iam.interfaces.rest.dto.permission.PermissionResponse::from)
                 .toList();
     }
 }

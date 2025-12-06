@@ -1,5 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.department;
 
+import com.summer.iam.domain.model.Department;
+
 public class DepartmentResponse {
     private String id;
     private String pid;
@@ -23,4 +25,16 @@ public class DepartmentResponse {
     public void setCode(String code) { this.code = code; }
     public Integer getSort() { return sort; }
     public void setSort(Integer sort) { this.sort = sort; }
+
+    public static DepartmentResponse from(Department d) {
+        DepartmentResponse r = new DepartmentResponse();
+        r.setId(d.getId());
+        r.setPid(d.getPid());
+        r.setName(d.getName());
+        r.setIcon(d.getIcon());
+        r.setRoot(d.getRoot());
+        r.setCode(d.getCode());
+        r.setSort(d.getSort());
+        return r;
+    }
 }

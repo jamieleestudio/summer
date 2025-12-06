@@ -1,5 +1,7 @@
 package com.summer.iam.application.model;
 
+import com.summer.iam.domain.model.Position;
+
 public class PositionSummary {
     private String id;
     private String name;
@@ -20,5 +22,15 @@ public class PositionSummary {
     public void setSort(Integer sort) { this.sort = sort; }
     public Boolean getEnabled() { return enabled; }
     public void setEnabled(Boolean enabled) { this.enabled = enabled; }
-}
 
+    public static PositionSummary from(Position p) {
+        PositionSummary s = new PositionSummary();
+        s.setId(p.getId());
+        s.setName(p.getName());
+        s.setCode(p.getCode());
+        s.setType(p.getType());
+        s.setSort(p.getSort());
+        s.setEnabled(p.getEnabled());
+        return s;
+    }
+}

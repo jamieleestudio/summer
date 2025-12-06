@@ -2,7 +2,7 @@ package com.summer.iam.interfaces.rest.controller;
 
 import com.summer.iam.application.command.RoleCreateCommand;
 import com.summer.iam.application.command.RoleUpdateCommand;
-import com.summer.iam.application.service.RoleCommandService;
+import com.summer.iam.application.service.RoleService;
 import com.summer.iam.interfaces.rest.assembler.RoleAssembler;
 import com.summer.iam.interfaces.rest.dto.permission.PermissionResponse;
 import com.summer.iam.interfaces.rest.dto.role.RoleCreateRequest;
@@ -24,57 +24,57 @@ import java.util.List;
 @Tag(name = "Roles")
 public class RoleController {
 
-    private final RoleCommandService roleCommandService;
+    private final RoleService roleService;
 
-    public RoleController(RoleCommandService roleCommandService) {
-        this.roleCommandService = roleCommandService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping
     @Operation(summary = "List roles (paginated)")
     public Page<RoleResponse> list(Pageable pageable) {
-        return roleCommandService.findAll(pageable);
+        return roleService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get role detail with permissions")
     public RoleDetailResponse getById(@PathVariable("id") String id) {
-        return roleCommandService.findById(id)
+        return roleService.findById(id)
                 .orElse(null);
     }
 
     @GetMapping("/{id}/permissions")
     @Operation(summary = "List permissions of role")
     public List<PermissionResponse> listPermissions(@PathVariable("id") String id) {
-        return roleCommandService.listPermissions(id);
+        return roleService.listPermissions(id);
     }
 
     @PostMapping
     @Operation(summary = "Create a new role")
     public RoleDetailResponse create(@Valid @RequestBody RoleCreateRequest request) {
         RoleCreateCommand cmd = RoleAssembler.toCreateCommand(request);
-        return roleCommandService.create(cmd);
+        return roleService.create(cmd);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update role")
     public RoleDetailResponse update(@PathVariable("id") String id, @Valid @RequestBody RoleUpdateRequest request) {
         RoleUpdateCommand cmd = RoleAssembler.toUpdateCommand(request);
-        return roleCommandService.update(id, cmd)
+        return roleService.update(id, cmd)
                 .orElse(null);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete role")
     public void delete(@PathVariable("id") String id) {
-        roleCommandService.delete(id);
+        roleService.delete(id);
     }
     
     @Operation(summary = "设置角色启用状态")
     @PutMapping("/{id}/enabled")
     public RoleDetailResponse setEnabled(@PathVariable("id") String id,
                                        @RequestBody RoleEnabledRequest request) {
-        return roleCommandService.setEnabled(id, request.getEnabled()).orElse(null);
+        return roleService.setEnabled(id, request.getEnabled()).orElse(null);
     }
 
 }
