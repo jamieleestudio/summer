@@ -20,10 +20,10 @@ public class UserResponse {
     private Boolean enable;
     private String departmentId;
     private String departmentName;
-    private java.util.List<String> positionIds;
-    private java.util.List<String> positionNames;
-    private java.util.List<String> roleIds;
-    private java.util.List<String> roleNames;
+    private List<String> positionIds;
+    private List<String> positionNames;
+    private List<String> roleIds;
+    private List<String> roleNames;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
