@@ -10,7 +10,7 @@ spring:
     ## Beijing Time equals GMT+8. Use serverTimezone=GMT%2B8, or Asia/Shanghai.
     url: jdbc:mysql://localhost:3306/summer?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
     username: root
-    password: mysql123456
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -43,10 +43,10 @@ springdoc:
   swagger-ui:
     disable-swagger-default-url: true
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.orm.jdbc.bind: trace
-    org.hibernate.engine.jdbc.batch.internal: debug
-    org.springframework.orm.jpa: debug
-    org.springframework.jdbc.core: debug
+# logging:
+#   level:
+#     org.hibernate.SQL: debug
+#     org.hibernate.orm.jdbc.bind: trace
+#     org.hibernate.engine.jdbc.batch.internal: debug
+#     org.springframework.orm.jpa: debug
+#     org.springframework.jdbc.core: debug

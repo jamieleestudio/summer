@@ -66,13 +66,13 @@ public final class UserFactory {
         }
 
         if (positionIds != null) {
-            user.setPositions(positionRepository.findByIds(positionIds));
+            user.setPositions(positionRepository.findByIdIn(positionIds));
         }else{
             user.setPositions(null);    
         }
 
         if (roleIds != null) {
-            user.setRoles(roleRepository.findByIds(roleIds));
+            user.setRoles(roleRepository.findByIdIn(roleIds));
         }else{
             user.setRoles(null);        
         }

@@ -21,5 +21,5 @@ public interface PermissionRepository {
 
     void deleteById(String id);
 
-    List<Permission> findByIds(List<String> permissionIds);
+    List<Permission> findByIdIn(List<String> permissionIds);
 }

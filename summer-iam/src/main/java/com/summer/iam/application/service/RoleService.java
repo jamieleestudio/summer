@@ -40,7 +40,7 @@ public class RoleService {
         role.setSort(cmd.getSort());
         role.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
         if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
-            List<Permission> permissions = permissionRepository.findByIds(cmd.getPermissions());
+            List<Permission> permissions = permissionRepository.findByIdIn(cmd.getPermissions());
             role.setPermissions(permissions);
         }
         Role saved = roleRepository.save(role);
@@ -59,7 +59,7 @@ public class RoleService {
             role.setSort(cmd.getSort());
             if (cmd.getEnabled() != null) { role.setEnabled(cmd.getEnabled()); }
             if (cmd.getPermissions() != null && !cmd.getPermissions().isEmpty()) {
-                List<Permission> permissions = permissionRepository.findByIds(cmd.getPermissions());
+                List<Permission> permissions = permissionRepository.findByIdIn(cmd.getPermissions());
                 role.setPermissions(permissions);
             } else {
                 role.setPermissions(new ArrayList<>());

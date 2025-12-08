@@ -15,7 +15,7 @@ public interface PositionRepository {
 
     Optional<Position> findById(String id);
 
-    List<Position> findByIds(List<String> ids);
+    List<Position> findByIdIn(List<String> ids);
 
     Position save(Position position);
 
