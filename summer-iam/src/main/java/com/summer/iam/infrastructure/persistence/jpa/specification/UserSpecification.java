@@ -87,7 +87,8 @@ public class UserSpecification {
             Optional<String> departmentId,
             boolean onlyAvailable) {
         
-        Specification<User> spec = Specification.where(null);
+        // Specification<User> spec = Specification.where(null);
+        Specification<User> spec = Specification.unrestricted();
         
         if (account.isPresent()) {
             spec = spec.and(withAccount(account.get()));

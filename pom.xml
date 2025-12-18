@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.8</version>
+		<version>4.0.0</version>
 		<relativePath/>
 	</parent>
 
@@ -88,14 +88,6 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
-
-		<!-- Hibernate JPA Metamodel Generator -->
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 	</dependencies>
     
   <build>
