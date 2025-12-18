@@ -82,12 +82,6 @@
             <version>2.5.0</version>
         </dependency>
 
-        <!-- Spring HATEOAS -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-hateoas</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.summer</groupId>
             <artifactId>summer-common</artifactId>
