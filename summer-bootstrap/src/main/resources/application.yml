@@ -27,6 +27,10 @@ spring:
         batch_versioned_data: true
         generate_statistics: true
 
+  output:
+    ansi:
+      enabled: ALWAYS
+
 jwt:
   header: Authorization
   # This token must be encoded using Base64 with mininum 88 Bits (you can type `echo 'secret-key'|base64` on your command line)
@@ -43,10 +47,12 @@ springdoc:
   swagger-ui:
     disable-swagger-default-url: true
 
-# logging:
-#   level:
-#     org.hibernate.SQL: debug
-#     org.hibernate.orm.jdbc.bind: trace
-#     org.hibernate.engine.jdbc.batch.internal: debug
-#     org.springframework.orm.jpa: debug
-#     org.springframework.jdbc.core: debug
+logging:
+  config: classpath:logback-spring.xml
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p){magenta} %clr(${PID:- }){yellow} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+  level:
+    root: INFO
+    com.summer: DEBUG
+    org.springframework.web: WARN
+    org.hibernate: WARN
