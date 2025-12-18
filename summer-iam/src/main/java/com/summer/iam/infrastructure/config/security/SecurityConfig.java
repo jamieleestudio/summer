@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig  {
@@ -47,8 +47,8 @@ public class SecurityConfig  {
 
    @Bean
    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(passwordEncoder);
-      authProvider.setUserDetailsService(userDetailsService);
+      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
+      authProvider.setPasswordEncoder(passwordEncoder);
       return authProvider;
    }
 
