@@ -1,5 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.user;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +24,7 @@ public class UserCreateRequest {
     private String description;
     private Boolean enable;
     private String departmentId;
-    private java.util.List<String> positionIds;
-    private java.util.List<String> roleIds;
+    private List<String> positionIds;
+    private List<String> roleIds;
 
 }
