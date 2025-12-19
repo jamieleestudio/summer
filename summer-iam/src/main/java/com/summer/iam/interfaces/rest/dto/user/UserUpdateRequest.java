@@ -1,5 +1,7 @@
 package com.summer.iam.interfaces.rest.dto.user;
 
+import java.util.List;
+
 public class UserUpdateRequest {
     private String firstName;
     private String lastName;
@@ -12,8 +14,8 @@ public class UserUpdateRequest {
     private String description;
     private Boolean enable;
     private String departmentId;
-    private java.util.List<String> positionIds;
-    private java.util.List<String> roleIds;
+    private List<String> positionIds;
+    private List<String> roleIds;
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -37,8 +39,8 @@ public class UserUpdateRequest {
     public void setEnable(Boolean enable) { this.enable = enable; }
     public String getDepartmentId() { return departmentId; }
     public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
-    public java.util.List<String> getPositionIds() { return positionIds; }
-    public void setPositionIds(java.util.List<String> positionIds) { this.positionIds = positionIds; }
-    public java.util.List<String> getRoleIds() { return roleIds; }
-    public void setRoleIds(java.util.List<String> roleIds) { this.roleIds = roleIds; }
+    public List<String> getPositionIds() { return positionIds; }
+    public void setPositionIds(List<String> positionIds) { this.positionIds = positionIds; }
+    public List<String> getRoleIds() { return roleIds; }
+    public void setRoleIds(List<String> roleIds) { this.roleIds = roleIds; }
 }
