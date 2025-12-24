@@ -7,6 +7,7 @@ import com.summer.iam.interfaces.rest.assembler.UserAssembler;
 import com.summer.iam.interfaces.rest.dto.user.UserCreateRequest;
 import com.summer.iam.interfaces.rest.dto.user.UserResponse;
 import com.summer.iam.interfaces.rest.dto.user.UserUpdateRequest;
+import com.summer.iam.interfaces.rest.dto.user.UserEnabledRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -57,6 +58,13 @@ public class UserController {
     @Operation(summary = "Delete user")
     public void delete(@PathVariable("id") String id) {
         userService.delete(id);
+    }
+
+    @PutMapping("/{id}/enabled")
+    @Operation(summary = "Set user enabled state")
+    public Optional<UserResponse> setEnabled(@PathVariable("id") String id,
+                                             @RequestBody UserEnabledRequest request) {
+        return userService.setEnabled(id, request.getEnabled());
     }
 
     

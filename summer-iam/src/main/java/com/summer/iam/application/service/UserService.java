@@ -87,5 +87,16 @@ public class UserService {
     @Transactional(readOnly = true)
     public Optional<UserResponse> findById(String id) { return userRepository.findById(id).map(UserResponse::from); }
 
+    public Optional<UserResponse> setEnabled(String id, Boolean enabled) {
+        return userRepository.findById(id).map(user -> {
+            user.setEnable(enabled);
+            User saved = userRepository.save(user);
+            return UserResponse.from(saved);
+        });
+    }
+
+    public Optional<UserResponse> enable(String id) { return setEnabled(id, true); }
+
+    public Optional<UserResponse> disable(String id) { return setEnabled(id, false); }
     
 }
