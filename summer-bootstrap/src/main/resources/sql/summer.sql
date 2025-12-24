@@ -95,7 +95,7 @@ CREATE TABLE `sm_system_role_permission` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `sm_system_department` (`id`,`pid`,`name`,`icon`,`is_root`,`code`,`sort`) VALUES
-('dept_root',NULL,'System','settings',1,'SYS',1);
+('dept_root',NULL,'星河数智有限公司','settings',1,'SYS',1);
 
 INSERT INTO `sm_system_position` (`id`,`name`,`code`,`type`,`description`,`sort`,`enabled`) VALUES
 ('pos_admin','Administrator','ADMIN',1,'System administrator',1,1),

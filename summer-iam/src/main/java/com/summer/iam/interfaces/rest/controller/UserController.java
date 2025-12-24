@@ -62,9 +62,9 @@ public class UserController {
 
     @PutMapping("/{id}/enabled")
     @Operation(summary = "Set user enabled state")
-    public Optional<UserResponse> setEnabled(@PathVariable("id") String id,
-                                             @RequestBody UserEnabledRequest request) {
-        return userService.setEnabled(id, request.getEnabled());
+    public void setEnabled(@PathVariable("id") String id,
+                           @RequestBody UserEnabledRequest request) {
+        userService.setEnabled(id, request.getEnabled());
     }
 
     
