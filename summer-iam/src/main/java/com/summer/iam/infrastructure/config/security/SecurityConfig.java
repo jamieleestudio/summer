@@ -41,7 +41,7 @@ public class SecurityConfig  {
    }
 
    @Bean
-   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+   public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)  {
       return authenticationConfiguration.getAuthenticationManager();
    }
 
@@ -53,7 +53,7 @@ public class SecurityConfig  {
    }
 
    @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+   public SecurityFilterChain filterChain(HttpSecurity http){
                http
               .csrf(AbstractHttpConfigurer::disable)
              .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
