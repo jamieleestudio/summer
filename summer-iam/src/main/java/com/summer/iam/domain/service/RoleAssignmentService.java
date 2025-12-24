@@ -1,16 +1,15 @@
 package com.summer.iam.domain.service;
 
-import com.summer.iam.domain.model.Role;
-import com.summer.iam.domain.model.RoleAssignmentResult;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service
+import com.summer.iam.domain.model.Role;
+import com.summer.iam.domain.model.RoleAssignmentResult;
+
 public class RoleAssignmentService {
+
     public RoleAssignmentResult validate(List<Role> current, List<Role> toAssign) {
         Set<String> currentNames = new HashSet<>();
         if (current != null) {

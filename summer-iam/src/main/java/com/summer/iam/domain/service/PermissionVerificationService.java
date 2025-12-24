@@ -1,15 +1,13 @@
 package com.summer.iam.domain.service;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 public class PermissionVerificationService {
 
     public boolean hasPermission(String code) {

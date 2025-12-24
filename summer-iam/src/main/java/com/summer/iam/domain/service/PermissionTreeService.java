@@ -1,14 +1,13 @@
 package com.summer.iam.domain.service;
 
-import com.summer.iam.domain.model.Permission;
-import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service
+import com.summer.iam.domain.model.Permission;
+
 public class PermissionTreeService {
+
     public boolean canMove(String nodeId, String targetPid, Set<String> descendants) {
         if (nodeId == null || targetPid == null) return false;
         if (descendants == null) return true;

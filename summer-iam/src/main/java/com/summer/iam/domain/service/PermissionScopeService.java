@@ -1,12 +1,10 @@
 package com.summer.iam.domain.service;
 
+import com.summer.iam.domain.model.Permission;
 import com.summer.iam.domain.model.Role;
 import com.summer.iam.domain.model.Scope;
-import com.summer.iam.domain.model.Permission;
 import com.summer.iam.domain.model.User;
-import org.springframework.stereotype.Service;
 
-@Service
 public class PermissionScopeService {
     public Scope effectiveScope(Role role, User context) {
         Integer s = role != null ? role.getPermissionScope() : null;
