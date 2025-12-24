@@ -28,7 +28,7 @@ public class PositionService {
         p.setType(cmd.getType());
         p.setDescription(cmd.getDescription());
         p.setSort(cmd.getSort());
-        p.setEnabled(cmd.getEnabled() != null ? cmd.getEnabled() : true);
+        p.setEnabled(cmd.getEnabled());
         Position saved = positionRepository.save(p);
         return PositionInfo.from(saved);
     }

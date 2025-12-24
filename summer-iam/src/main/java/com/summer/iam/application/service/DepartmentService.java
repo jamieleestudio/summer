@@ -29,7 +29,7 @@ public class DepartmentService {
         d.setCode(cmd.getCode());
         d.setSort(cmd.getSort());
         Department saved = departmentRepository.save(d);
-        return com.summer.iam.interfaces.rest.dto.department.DepartmentResponse.from(saved);
+        return DepartmentResponse.from(saved);
     }
 
     @Transactional
@@ -42,7 +42,7 @@ public class DepartmentService {
             d.setCode(cmd.getCode());
             d.setSort(cmd.getSort());
             Department saved = departmentRepository.save(d);
-            return com.summer.iam.interfaces.rest.dto.department.DepartmentResponse.from(saved);
+            return DepartmentResponse.from(saved);
         });
     }
 
@@ -50,10 +50,10 @@ public class DepartmentService {
     public void delete(String id) { departmentRepository.deleteById(id); }
 
     @Transactional(readOnly = true)
-    public List<DepartmentResponse> findAll() { return departmentRepository.findAll().stream().map(com.summer.iam.interfaces.rest.dto.department.DepartmentResponse::from).toList(); }
+    public List<DepartmentResponse> findAll() { return departmentRepository.findAll().stream().map(DepartmentResponse::from).toList(); }
 
     @Transactional(readOnly = true)
-    public Optional<DepartmentResponse> findById(String id) { return departmentRepository.findById(id).map(com.summer.iam.interfaces.rest.dto.department.DepartmentResponse::from); }
+    public Optional<DepartmentResponse> findById(String id) { return departmentRepository.findById(id).map(DepartmentResponse::from); }
 
     
 }

@@ -20,11 +20,11 @@ public class PermissionQueryService {
     }
 
     public List<PermissionResponse> findAll() {
-        return permissionRepository.findAll().stream().map(com.summer.iam.interfaces.rest.dto.permission.PermissionResponse::from).toList();
+        return permissionRepository.findAll().stream().map(PermissionResponse::from).toList();
     }
 
     public Page<PermissionResponse> listMenus(Pageable pageable) {
-        return permissionRepository.findByType(Permission.Type.MENU, pageable).map(com.summer.iam.interfaces.rest.dto.permission.PermissionResponse::from);
+        return permissionRepository.findByType(Permission.Type.MENU, pageable).map(PermissionResponse::from);
     }
 
     
