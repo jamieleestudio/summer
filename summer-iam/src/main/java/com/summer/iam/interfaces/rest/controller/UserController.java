@@ -2,6 +2,7 @@ package com.summer.iam.interfaces.rest.controller;
 
 import com.summer.iam.application.command.UserCreateCommand;
 import com.summer.iam.application.command.UserUpdateCommand;
+import com.summer.iam.application.query.UserPageQuery;
 import com.summer.iam.application.service.UserService;
 import com.summer.iam.interfaces.rest.assembler.UserAssembler;
 import com.summer.iam.interfaces.rest.dto.user.UserCreateRequest;
@@ -28,9 +29,18 @@ public class UserController {
     }
 
     @GetMapping
-    @Operation(summary = "List users (paginated)")
-    public Page<UserResponse> list(Pageable pageable) {
-        return userService.findAll(pageable);
+    @Operation(summary = "List users (paginated, with filters)")
+    public Page<UserResponse> list(@RequestParam(value = "account", required = false) String account,
+                                   @RequestParam(value = "name", required = false) String name,
+                                   @RequestParam(value = "phone", required = false) String phone,
+                                   @RequestParam(value = "enabled", required = false) Boolean enabled,
+                                   Pageable pageable) {
+        UserPageQuery query = new UserPageQuery();
+        query.setAccount(account);
+        query.setName(name);
+        query.setPhone(phone);
+        query.setEnabled(enabled);
+        return userService.search(query, pageable);
     }
 
     @GetMapping("/{id}")

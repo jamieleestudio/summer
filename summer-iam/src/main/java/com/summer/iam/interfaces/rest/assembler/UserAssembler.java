@@ -58,7 +58,7 @@ public final class UserAssembler {
         r.setGender(info.getGender());
         r.setAvatar(info.getAvatar());
         r.setDescription(info.getDescription());
-        r.setEnable(info.getEnable());
+        r.setEnabled(info.getEnable());
         r.setDepartmentId(info.getDepartmentId());
         r.setDepartmentName(info.getDepartmentName());
         r.setPositionIds(info.getPositionIds());

@@ -34,11 +34,12 @@ public class UserSpecificationServiceImpl implements UserSpecificationService {
     @Override
     public Page<User> findUsers(Optional<String> account,
                                Optional<String> name,
+                               Optional<String> phone,
                                Optional<String> departmentId,
-                               boolean onlyAvailable,
+                               Optional<Boolean> enabled,
                                Pageable pageable) {
         return userRepositoryJpa.findAll(
-                UserSpecification.getUserSpecification(account, name, departmentId, onlyAvailable),
+                UserSpecification.getUserSpecification(account, name, phone, departmentId, enabled),
                 pageable
         );
     }

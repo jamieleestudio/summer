@@ -17,7 +17,7 @@ public class UserResponse {
     private Integer gender;
     private String avatar;
     private String description;
-    private Boolean enable;
+    private Boolean enabled;
     private String departmentId;
     private String departmentName;
     private List<String> positionIds;
@@ -43,8 +43,8 @@ public class UserResponse {
     public void setAvatar(String avatar) { this.avatar = avatar; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-    public Boolean getEnable() { return enable; }
-    public void setEnable(Boolean enable) { this.enable = enable; }
+    public Boolean getEnabled() { return enabled; }
+    public void setEnabled(Boolean enable) { this.enabled = enable; }
     public String getDepartmentId() { return departmentId; }
     public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
     public String getDepartmentName() { return departmentName; }
@@ -72,7 +72,7 @@ public class UserResponse {
         r.setGender(u.getGender());
         r.setAvatar(u.getAvatar());
         r.setDescription(u.getDescription());
-        r.setEnable(u.getEnable());
+        r.setEnabled(u.getEnable());
         Department d = u.getDepartment();
         if (d != null) {
             r.setDepartmentId(d.getId());

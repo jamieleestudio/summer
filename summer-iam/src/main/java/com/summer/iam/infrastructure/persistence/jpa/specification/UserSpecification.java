@@ -13,17 +13,17 @@ import java.util.Optional;
 public class UserSpecification {
 
     /**
-     * 根据账号查找用户
-     * @param account 账号
+     * 根据账号模糊查询用户
+     * @param account 账号关键字
      * @return Specification对象
      */
     public static Specification<User> withAccount(String account) {
         return (root, query, criteriaBuilder) -> {
-            if (account == null) {
+            if (account == null || account.isEmpty()) {
                 return null;
             }
-            // 使用类型安全的元模型引用
-            return criteriaBuilder.equal(root.get(User_.account), account);
+            String pattern = "%" + account + "%";
+            return criteriaBuilder.like(root.get(User_.account), pattern);
         };
     }
 
@@ -61,51 +61,91 @@ public class UserSpecification {
     }
 
     /**
-     * 查找可用的用户
+     * 根据手机号模糊查询用户
+     * @param phone 手机号关键字
+     * @return Specification对象
+     */
+    public static Specification<User> withPhone(String phone) {
+        return (root, query, criteriaBuilder) -> {
+            if (phone == null || phone.isEmpty()) {
+                return null;
+            }
+            String pattern = "%" + phone + "%";
+            return criteriaBuilder.like(root.get(User_.phone), pattern);
+        };
+    }
+
+    /**
+     * 根据启停用状态查询用户
+     * @param enabled 启用状态
+     * @return Specification对象
+     */
+    public static Specification<User> withEnabled(Boolean enabled) {
+        return (root, query, criteriaBuilder) -> {
+            if (enabled == null) {
+                return null;
+            }
+            return criteriaBuilder.equal(root.get(User_.enable), enabled);
+        };
+    }
+
+    /**
+     * 过滤未被删除的用户
+     * @return Specification对象
+     */
+    public static Specification<User> notDeleted() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get(User_.deleted));
+    }
+
+    /**
+     * 查找可用的用户（启用且未删除）
      * @return Specification对象
      */
     public static Specification<User> availableUsers() {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.and(
-                criteriaBuilder.isTrue(root.get("status").get("enable")),
-                criteriaBuilder.isFalse(root.get("status").get("deleted"))
-            );
-        };
+        return withEnabled(Boolean.TRUE).and(notDeleted());
     }
 
     /**
      * 组合多个查询条件
      * @param account 账号
      * @param name 姓名
+     * @param phone 手机号
      * @param departmentId 部门ID
-     * @param onlyAvailable 是否只查询可用用户
+     * @param enabled 启停用状态
      * @return 组合后的Specification
      */
     public static Specification<User> getUserSpecification(
             Optional<String> account,
             Optional<String> name,
+            Optional<String> phone,
             Optional<String> departmentId,
-            boolean onlyAvailable) {
-        
-        // Specification<User> spec = Specification.where(null);
+            Optional<Boolean> enabled) {
+
         Specification<User> spec = Specification.unrestricted();
-        
+
         if (account.isPresent()) {
             spec = spec.and(withAccount(account.get()));
         }
-        
+
         if (name.isPresent()) {
             spec = spec.and(withNameLike(name.get()));
         }
-        
+
+        if (phone.isPresent()) {
+            spec = spec.and(withPhone(phone.get()));
+        }
+
         if (departmentId.isPresent()) {
             spec = spec.and(withDepartmentId(departmentId.get()));
         }
-        
-        if (onlyAvailable) {
-            spec = spec.and(availableUsers());
+
+        // 默认只查询未删除的用户
+        spec = spec.and(notDeleted());
+
+        if (enabled.isPresent()) {
+            spec = spec.and(withEnabled(enabled.get()));
         }
-        
+
         return spec;
     }
 }

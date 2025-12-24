@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.summer.iam.application.command.UserCreateCommand;
 import com.summer.iam.application.command.UserUpdateCommand;
+import com.summer.iam.application.query.UserPageQuery;
 import com.summer.iam.application.service.UserService;
+import com.summer.iam.application.service.UserSpecificationService;
 import com.summer.iam.domain.model.User;
 import com.summer.iam.domain.model.UserFactory;
 import com.summer.iam.domain.model.Username;
@@ -24,13 +26,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserFactory userFactory;
+    private final UserSpecificationService userSpecificationService;
 
     public UserServiceImpl(UserRepository userRepository,
-                              UserFactory userFactory,
-                              PasswordEncoder passwordEncoder) {
+                           UserFactory userFactory,
+                           PasswordEncoder passwordEncoder,
+                           UserSpecificationService userSpecificationService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userFactory = userFactory;
+        this.userSpecificationService = userSpecificationService;
     }
 
     @Override
@@ -99,6 +104,26 @@ public class UserServiceImpl implements UserService {
             user.setEnable(enabled);
             return userRepository.save(user);
         }).orElseThrow(() -> new IllegalArgumentException("用户不存在: " + id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<UserResponse> search(UserPageQuery query, Pageable pageable) {
+        Optional<String> accountOpt = Optional.ofNullable(query.getAccount()).filter(s -> !s.isBlank());
+        Optional<String> nameOpt = Optional.ofNullable(query.getName()).filter(s -> !s.isBlank());
+        Optional<String> phoneOpt = Optional.ofNullable(query.getPhone()).filter(s -> !s.isBlank());
+        Optional<Boolean> enabledOpt = Optional.ofNullable(query.getEnabled());
+
+        Page<User> page = userSpecificationService.findUsers(
+                accountOpt,
+                nameOpt,
+                phoneOpt,
+                Optional.empty(),
+                enabledOpt,
+                pageable
+        );
+
+        return page.map(UserResponse::from);
     }
 
 }

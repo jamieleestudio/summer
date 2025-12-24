@@ -12,8 +12,9 @@ public interface UserSpecificationService {
     List<User> findByNameLike(String name);
     Page<User> findUsers(Optional<String> account,
                         Optional<String> name,
+                        Optional<String> phone,
                         Optional<String> departmentId,
-                        boolean onlyAvailable,
+                        Optional<Boolean> enabled,
                         Pageable pageable);
     List<User> findAllAvailableUsers();
     List<User> findAvailableUsersByDepartment(String departmentId);
